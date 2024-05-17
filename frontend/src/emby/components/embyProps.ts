@@ -1,6 +1,7 @@
 export type EmbyProps = {
     disabled?: boolean;
     class?: string;
+    children?: any; 
 };
 
 export function parseEmbyProps<T extends EmbyProps>(props: T): Omit<T, 'disabled'> {

@@ -12,6 +12,7 @@ export type ConfirmationProps = {
     control?: React.FC<ControlProps>;
     onYes(data: any): void;
     onNo(data: any): void;
+    children?:any
 };
 
 type ControlProps = {

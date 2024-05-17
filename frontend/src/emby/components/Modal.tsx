@@ -10,6 +10,7 @@ export type ModalProps = {
     onClose(): void;
     onConfirm(): void;
     small?: boolean;
+    children: any;
 };
 
 export const Modal: React.FC<ModalProps> = props => {
