@@ -1,4 +1,9 @@
 # ChangeLog
+## Version 2.6.0.4860
+  ## General
+  - Upgrade version of typescript
+  - Updated repo to handle dev env on windows.
+
 ## Version 2.5.1.4850
   ## Bug
   - Fixed bug with clearing playlist.

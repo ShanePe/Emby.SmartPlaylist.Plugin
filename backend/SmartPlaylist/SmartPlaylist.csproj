@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.5.1.4850</Version>
-    <FileVersion>2.5.1.4850</FileVersion>
+    <Version>2.6.0.4860</Version>
+    <FileVersion>2.6.0.4860</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configuration\smartplaylist.2.5.1.4850.html" />
+    <EmbeddedResource Include="Configuration\smartplaylist.2.6.0.4860.html" />
     <EmbeddedResource Include="Configuration\thumb.png" />
     <EmbeddedResource Include="Configuration\*.js" />
   </ItemGroup>

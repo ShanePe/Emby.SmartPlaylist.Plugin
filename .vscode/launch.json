@@ -29,6 +29,29 @@
             }
         },
         {
+            "name": "Emby-Windows",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${env:APPDATA}\\Emby-Server\\system\\EmbyServer.exe",
+            "preLaunchTask": "Remote-Debug-Windows",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "requireExactSource": false,
+            "justMyCode": false,
+            "symbolOptions": {
+                "searchPaths": [
+                    "${env:APPDATA}\\Emby-Server\\programdata\\plugins",
+                    "${workspaceFolder}/backend/SmartPlaylist/bin/Debug/netstandard2.0"
+                ],
+                "searchMicrosoftSymbolServer": false,
+                "searchNuGetOrgSymbolServer": false,
+                "moduleFilter": {
+                    "mode": "loadAllButExcluded"
+                }
+            }
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",

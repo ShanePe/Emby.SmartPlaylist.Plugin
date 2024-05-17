@@ -44,7 +44,7 @@ if (!$exitCode) {
 Push-Location $backednDir
 
 #& $MsBuildExe SmartPlaylist.sln /t:Build /p:Configuration=$buildConfig
-dotnet build
+dotnet build --configuration $buildConfig
 $exitCode = $?
 
 Pop-Location

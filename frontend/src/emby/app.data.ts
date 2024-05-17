@@ -17,7 +17,7 @@ type ApiClient = {
     ajax<T = any>(request: any): Promise<T>;
 };
 
-export const version = "2.5.1.4850";
+export const version = "2.6.0.4860";
 
 declare global {
     // tslint:disable-next-line:interface-name
