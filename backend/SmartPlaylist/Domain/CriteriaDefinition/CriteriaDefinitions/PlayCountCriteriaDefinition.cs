@@ -3,7 +3,7 @@ using SmartPlaylist.Domain.Values;
 
 namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 {
-    public class PlayCountCriteriaDefinition : CriteriaDefinition
+    public class PlayCountCriteriaDefinition : UserCriteriaDefinition
     {
         public override string Name => "Play Count";
         public override CriteriaDefinitionType Type => NumberDefinitionType.Instance;

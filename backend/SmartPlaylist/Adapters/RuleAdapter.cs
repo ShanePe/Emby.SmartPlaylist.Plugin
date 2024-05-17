@@ -40,7 +40,7 @@ namespace SmartPlaylist.Adapters
         {
             var criteriaDefinition = DefinedCriteriaDefinitions.All.FirstOrDefault(x => x.Name == dto.Name);
             var operatorObj = GetOperator(dto.Operator);
-            return new RuleCriteriaValue(dto.Value as Value, operatorObj, criteriaDefinition);
+            return new RuleCriteriaValue(dto.Value as Value, operatorObj, dto.UserId, criteriaDefinition);
         }
 
         private static Operator GetOperator(OperatorDto dto)

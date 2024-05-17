@@ -12,8 +12,7 @@ namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
         {
             if (item.Item is Audio audio)
             {
-                var album = audio.AlbumEntity;
-                if (album != null) return base.GetValue(new UserItem(item.User, album));
+                if (!string.IsNullOrEmpty(audio.Album)) return base.GetValue(new UserItem(item.User, item.Item, item.SmartPlaylist));
             }
 
             return Value.None;

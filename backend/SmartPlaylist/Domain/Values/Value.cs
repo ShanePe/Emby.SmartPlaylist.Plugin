@@ -7,12 +7,18 @@ namespace SmartPlaylist.Domain.Values
     {
         public static readonly NoneValue None = new NoneValue();
         public abstract string Kind { get; }
+        internal abstract string Friendly { get; }
 
-        [IgnoreDataMember] public bool IsNone => this == None;
+        [IgnoreDataMember] public virtual bool IsNone => this == None;
 
         public bool IsType(Type type)
         {
             return GetType() == type;
         }
+    }
+
+    public abstract class EmptyableValue : Value
+    {
+        internal abstract bool IsEmpty { get; }
     }
 }

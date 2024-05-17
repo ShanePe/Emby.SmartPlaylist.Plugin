@@ -5,7 +5,7 @@ using MediaBrowser.Controller.Entities.Audio;
 
 namespace SmartPlaylist.Comparers
 {
-    public class ArtistsComparer : IComparer<BaseItem>
+    public class ArtistsComparer : IComparer<BaseItem>, IComparable<BaseItem>
     {
         private readonly Func<Audio, string[]> _artistsPropSelector;
 
@@ -39,6 +39,12 @@ namespace SmartPlaylist.Comparers
             }
 
             return x.Length - y.Length;
+        }
+
+        public int CompareTo(BaseItem other)
+        {
+
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using SmartPlaylist.Infrastructure;
-using SmartPlaylist.Infrastructure.MesssageBus;
+using SmartPlaylist.Infrastructure.MessageBus;
 
 namespace SmartPlaylist.PerfLoggerDecorators
 {

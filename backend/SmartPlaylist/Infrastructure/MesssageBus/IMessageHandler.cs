@@ -1,4 +1,4 @@
-﻿namespace SmartPlaylist.Infrastructure.MesssageBus
+﻿namespace SmartPlaylist.Infrastructure.MessageBus
 {
     public interface IMessageHandler<in T> where T : IMessage
     {

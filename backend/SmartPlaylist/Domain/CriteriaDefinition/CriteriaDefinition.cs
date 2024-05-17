@@ -10,7 +10,13 @@ namespace SmartPlaylist.Domain.CriteriaDefinition
         public abstract CriteriaDefinitionType Type { get; }
 
         public virtual Value[] Values { get; } = new Value[0];
+        public virtual bool IsUserSpecific => false;
 
         public abstract Value GetValue(UserItem item);
+    }
+
+    public abstract class UserCriteriaDefinition : CriteriaDefinition
+    {
+        public override bool IsUserSpecific => true;
     }
 }

@@ -22,14 +22,16 @@ namespace SmartPlaylist.Services
         public IEnumerable<BaseItem> GetItems(User user, string[] itemTypes)
         {
             var query = GetItemsQuery(user, itemTypes);
-            return _libraryManager.GetUserRootFolder().GetItems(query).Items;
+            return BaseItem.LibraryManager.GetItemsResult(query).Items;
+            //return _libraryManager.GetUserRootFolder().GetItems(query).Items;
         }
 
         private static InternalItemsQuery GetItemsQuery(User user, string[] itemTypes)
         {
             return new InternalItemsQuery(user)
             {
-                IncludeItemTypes = itemTypes,
+                IncludeItemTypes = new string[] { "Episode" },
+
                 Recursive = true,
                 IsVirtualItem = false,
                 DtoOptions = new DtoOptions(true)

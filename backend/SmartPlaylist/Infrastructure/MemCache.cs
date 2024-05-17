@@ -27,7 +27,7 @@ namespace SmartPlaylist.Infrastructure
                     _items[key] = item;
                 }
 
-                return (T) item;
+                return (T)item;
             });
         }
 
@@ -44,14 +44,14 @@ namespace SmartPlaylist.Infrastructure
                     .ToList()
                     .ForEach(x => _items[x.Key] = x.Value);
 
-                _lastCacheUpdateTime = DateTimeOffset.UtcNow;
+                _lastCacheUpdateTime = DateTimeOffset.Now;
                 return items.Values;
             });
         }
 
         private bool IsValidGetAllCache(TimeSpan absoluteExpiration)
         {
-            return _lastCacheUpdateTime.HasValue && _lastCacheUpdateTime + absoluteExpiration >= DateTimeOffset.UtcNow;
+            return _lastCacheUpdateTime.HasValue && _lastCacheUpdateTime + absoluteExpiration >= DateTimeOffset.Now;
         }
 
         public void Set(object key, object value)
@@ -64,6 +64,16 @@ namespace SmartPlaylist.Infrastructure
         {
             _lock.Wait(TimeSpan.FromSeconds(30));
             _lock.SafeExecute(() => { _items.Remove(key); });
+        }
+
+        public void Invalidate()
+        {
+            _lock.Wait(TimeSpan.FromSeconds(30));
+            _lock.SafeExecute(() =>
+            {
+                _lastCacheUpdateTime = null;
+                _items.Clear();
+            });
         }
     }
 }

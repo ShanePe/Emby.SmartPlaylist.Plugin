@@ -29,6 +29,7 @@ export const createPlaylistContextValue = (
     if (!state) {
         throw new Error('state cannot be null');
     }
+
     const rulesTreeActions = createRulesTreeActions(dispatcher);
     const rulesTreeSelectors = createRulesTreeSelectors(state.rulesTree);
     const rulesCriteriaActions = createPlaylistActions(dispatcher, state, appContext);

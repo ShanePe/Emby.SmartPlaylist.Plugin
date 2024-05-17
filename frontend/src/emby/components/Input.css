@@ -6,7 +6,7 @@ input[type='number'].input-padding-fix {
 }
 
 .inline label {
-    display: none;
+    display: block;
 }
 
 .inputContainer .inline {

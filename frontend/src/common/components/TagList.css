@@ -1,0 +1,4 @@
+.tag-item{
+    cursor: default !important;
+    background-color:var(--line-background) !important;
+}

@@ -6,16 +6,13 @@ namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 {
     public class MediaTypeCriteriaDefinition : CriteriaDefinition
     {
-        private static readonly Value[] ListValues = Const.SupportedItemTypeNames.Select(s => ListValue.Create(s)).Cast<Value>().ToArray();
-
         public override string Name => "Media Type";
-        public override CriteriaDefinitionType Type => new ListValueDefinitionType(ListValues.First() as ListValue);
-
-        public override Value[] Values => ListValues;
-
+        public override CriteriaDefinitionType Type => new ListMapValueDefinitionType(Getter.SupportedTypes.First() as ListMapValue);
+        public override Value[] Values => Getter.SupportedTypes;
         public override Value GetValue(UserItem item)
         {
-            return ListValue.Create(item.Item.GetType().Name);
+            string name = item.Item.GetType().Name;
+            return ListMapValue.Create(name, name);
         }
     }
 }

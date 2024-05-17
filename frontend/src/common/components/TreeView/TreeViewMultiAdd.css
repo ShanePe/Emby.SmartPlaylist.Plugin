@@ -1,0 +1,32 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-container div {
+    padding: 10px;
+    border: calc(var(--line-size) * 1.8) solid var(--line-background);
+    border-radius: 0.3em;
+}
+
+.text-container textarea {
+    resize: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    height: 100%;
+    margin: -10px;
+}
+
+.text-container:focus-within .selectLabel {
+    color: var(--theme-accent-text-color);
+}
+
+.text-container:focus-within div {
+    border-color: hsl(
+        var(--theme-primary-color-hue),
+        var(--theme-primary-color-saturation),
+        var(--theme-primary-color-lightness)
+    ) !important;
+}

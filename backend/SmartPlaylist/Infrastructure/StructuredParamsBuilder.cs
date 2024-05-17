@@ -16,7 +16,7 @@ namespace SmartPlaylist.Infrastructure
 
                 paramsDict = paramsDict.Concat(newParamsDict)
                     .ToLookup(pair => pair.Key, pair => pair.Value)
-                    .ToDictionary(group => group.Key, group => group.First());
+                    .ToDictionary(group => group.Key, group => group.FirstOrDefault());
             }
 
             return paramsDict;

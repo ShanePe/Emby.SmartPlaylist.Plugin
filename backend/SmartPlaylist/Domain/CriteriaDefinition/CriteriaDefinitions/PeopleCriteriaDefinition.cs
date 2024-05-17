@@ -10,15 +10,14 @@ namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
     {
         public abstract PersonType[] PersonTypes { get; }
         public override CriteriaDefinitionType Type => StringDefinitionType.Instance;
-
         public override Value GetValue(UserItem item)
         {
             if (item.Item is Video video && video.SupportsPeople)
             {
-                var peoples = BaseItem.LibraryManager.GetItemPeople(item.Item);
+                var peoples = Plugin.Instance.LibraryManager.GetItemPeople(item.Item);
 
                 return ArrayValue<StringValue>.Create(peoples.Where(x => PersonTypes.Any(x.IsType))
-                    .Select(x => x.Name)?.Select(StringValue.Create).ToArray());
+                    .Select(x => x.Name)?.OrderBy(x => x)?.Select(StringValue.Create).ToArray());
             }
 
             return Value.None;

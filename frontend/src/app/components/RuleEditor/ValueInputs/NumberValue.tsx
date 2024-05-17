@@ -8,16 +8,17 @@ type NumberValueInputProps = {
 };
 
 export const NumberValueInput: React.FC<NumberValueInputProps> = props => {
+    function handleChange(e) {
+        props.onChange({
+            ...props.value,
+            value: e.target.valueAsNumber,
+        })
+    }
     return (
         <Input
             value={props.value.value}
             type="number"
-            onBlur={e =>
-                props.onChange({
-                    ...props.value,
-                    value: e.target.valueAsNumber,
-                })
-            }
+            onInput={handleChange}
         />
     );
 };

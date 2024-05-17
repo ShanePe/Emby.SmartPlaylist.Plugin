@@ -18,6 +18,8 @@ namespace SmartPlaylist.Domain.Values
         public int Value { get; }
         public PeriodType PeriodType { get; }
 
+        internal override string Friendly => $"Type: {PeriodType.ToString()}, Value: {Value}";
+
         public static LastPeriodValue Create(int value, PeriodType periodType)
         {
             return new LastPeriodValue(value, periodType);
@@ -52,14 +54,14 @@ namespace SmartPlaylist.Domain.Values
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((LastPeriodValue) obj);
+            return Equals((LastPeriodValue)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Value * 397) ^ (int) PeriodType;
+                return (Value * 397) ^ (int)PeriodType;
             }
         }
 

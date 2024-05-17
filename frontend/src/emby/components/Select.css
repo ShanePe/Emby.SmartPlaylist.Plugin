@@ -1,3 +1,11 @@
 .inline > .selectArrowContainer > div {
     display: none;
 }
+
+.selectContainer:hover .selectLabel {
+    color: hsl(
+        var(--theme-primary-color-hue),
+        var(--theme-primary-color-saturation),
+        var(--theme-primary-color-lightness)
+    ) !important;
+}

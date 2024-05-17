@@ -1,0 +1,19 @@
+.formDialogContent {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.dialog-small {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+        env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0) !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    width: auto !important;
+}

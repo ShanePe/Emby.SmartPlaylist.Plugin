@@ -7,7 +7,7 @@ import { EmbyProps, parseEmbyProps } from '~/emby/components/embyProps';
 type EmbySelectProps = SelectProps & EmbyProps;
 
 export const Select: React.FC<EmbySelectProps> = props => {
-    let wrapperClass = 'selectContainer';
+    let wrapperClass = 'selectContainer padding-lr';
     if (!props.label) {
         wrapperClass += ' inline';
     }

@@ -14,6 +14,14 @@ namespace SmartPlaylist.PerfLoggerDecorators.Services
             _decorated = decorated;
         }
 
+        public async Task<Domain.SmartPlaylist[]> GetAllSortableSmartPlaylistsAsync()
+        {
+            using (PerfLogger.Create("GetAllSortableSmartPlaylistsAsync"))
+            {
+                return await _decorated.GetAllSortableSmartPlaylistsAsync().ConfigureAwait(false);
+            }
+        }
+
         public async Task<Domain.SmartPlaylist[]> GetAllUpdateableSmartPlaylistsAsync()
         {
             using (PerfLogger.Create("GetAllUpdateableSmartPlaylists"))
@@ -25,7 +33,7 @@ namespace SmartPlaylist.PerfLoggerDecorators.Services
         public async Task<Domain.SmartPlaylist> GetSmartPlaylistAsync(Guid smartPlaylistId)
         {
             Domain.SmartPlaylist smartPlaylist = null;
-            using (PerfLogger.Create("GetSmartPlaylistFromProvider", () => new {smartPlaylistName = smartPlaylist?.Name}))
+            using (PerfLogger.Create("GetSmartPlaylistFromProvider", () => new { smartPlaylistName = smartPlaylist?.Name }))
             {
                 smartPlaylist = await _decorated.GetSmartPlaylistAsync(smartPlaylistId).ConfigureAwait(false);
                 return smartPlaylist;

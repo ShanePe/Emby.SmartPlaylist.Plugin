@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SmartPlaylist.Domain.Values;
 
 namespace SmartPlaylist.Parsers.JsonValueParsers
@@ -8,6 +9,7 @@ namespace SmartPlaylist.Parsers.JsonValueParsers
         public static Value Parse(object inputObj)
         {
             Value value = null;
+
             switch (inputObj)
             {
                 case string strValue:

@@ -1,0 +1,99 @@
+.plist-row {
+    border: 1px solid rgba(169, 169, 169, 0.2) !important;
+    background-color: rgba(169, 169, 169, 0.1);
+    display: inline-grid !important;
+    margin: 5px;
+    width: 220px;
+    height: 160px;
+}
+
+.plist-row:hover,
+.plist-row:nth-child(odd):hover {
+    background-color: rgba(169, 169, 169, 0.5);
+    box-shadow: 0px 0px 10px rgba(169, 169, 169, 0.6);
+}
+.plist-row:nth-child(odd) {
+    border: 1px solid rgba(169, 169, 169, 0.4) !important;
+    background-color: rgba(169, 169, 169, 0.3);
+}
+
+.plist-row .listItemBodyText {
+    display: flex;
+    text-align: center;
+}
+
+.plist-row .listItemBodyTextSub {
+    display: flex;
+    text-align: center;
+    font-size: smaller;
+}
+
+.plist-row .tooltiptext {
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 10px;
+}
+
+.plist-row .popper {
+    visibility: hidden;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+}
+
+.plist-row .popper button {
+    margin: 0px !important;
+    padding: 5px !important;
+}
+
+.plist-row .popper button :hover {
+    box-shadow: 0px 6px 20px;
+}
+
+.plist-row:hover .popper {
+    visibility: visible;
+}
+
+.plist-row .playlist-menu {
+    position: absolute;
+    bottom: 50px;
+    right: -10px;
+    z-index: 2;
+}
+
+.plist-row .playlist-menu {
+    box-shadow: 0px 6px 20px;
+}
+
+.sp-icon:hover {
+    box-shadow: 0 0 10px var(--theme-text-color);
+    border-radius: 100%;
+}
+
+.plist-row-disabled {
+    border: 1px solid rgba(255, 0, 0, 0.2) !important;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.plist-row-disabled:hover,
+.plist-row-disabled:nth-child(odd):hover {
+    border: 1px solid rgba(255, 0, 0, 0.3) !important;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.plist-row-disabled:nth-child(odd) {
+    border: 1px solid rgba(255, 0, 0, 0.2) !important;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.plist-icon-container {
+    display: flex;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+.plist-icon {
+    font-size: 120%;
+}

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Model.Entities;
 using SmartPlaylist.Domain.Rule;
@@ -8,27 +9,17 @@ namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 {
     public class ParentalRatingCriteriaDefinition : CriteriaDefinition
     {
-        private static readonly ParentalRating[] ParentalRatings = BaseItem.LocalizationManager.GetParentalRatings();
-
-        private static readonly ListValue[] ParentalRatingsListValues = ParentalRatings
-            .Select(x => ListValue.Create(x.Name, x.Value)).OrderBy(x=>x.NumValue).ToArray();
-
-        public override string Name => "Parental rating";
-        public override CriteriaDefinitionType Type => new ComparableListValueDefinitionType(ParentalRatingsListValues.First());
-
-        public override Value[] Values { get; } = ParentalRatingsListValues
-            .Cast<Value>()
-            .ToArray();
-
+        public override string Name => "Parental Rating";
+        public override CriteriaDefinitionType Type => new ListValueDefinitionType(Getter.OfficialRatings.First());
+        public override Value[] Values { get; } = Getter.OfficialRatings;
         public override Value GetValue(UserItem item)
         {
-            var ratingListValue =
-                ParentalRatingsListValues.FirstOrDefault(x =>
-                    x.NumValue.Equals(item.Item.InheritedParentalRatingValue));
+            var rating = item.Item.OfficialRating;
+            if (string.IsNullOrEmpty(rating)) return Value.None;
 
-            if (ratingListValue != null) return ratingListValue;
-
-            return Value.None;
+            return ListValue.Create(rating);
         }
+
+
     }
 }

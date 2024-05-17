@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
+using SmartPlaylist.Extensions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,13 +10,15 @@ namespace SmartPlaylist.Infrastructure.Queue
     public class AutoDequeueQueue<T> : IDisposable
     {
         private readonly AutoDequeueQueueConfig _config;
-        private readonly List<T> _items = new List<T>();
-        private readonly object _lock = new object();
+        private readonly ConcurrentQueue<T> _items = new ConcurrentQueue<T>();
+        //private readonly object _lock = new object();
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
         private readonly Action<IEnumerable<T>> _onDequeue;
         private readonly TimeSpan _period = TimeSpan.FromHours(1);
         private Timer _absoluteTimer;
         private Timer _timer;
 
+        public ConcurrentQueue<T> Items => _items;
         public AutoDequeueQueue(Action<IEnumerable<T>> onDequeue, AutoDequeueQueueConfig config)
         {
             _onDequeue = onDequeue;
@@ -29,13 +32,13 @@ namespace SmartPlaylist.Infrastructure.Queue
 
         public void Enqueue(T item)
         {
-            lock (_lock)
+            try
             {
+                _semaphore.Wait(1000);
                 if (_items.Count < _config.MaxItemsLimit)
                 {
                     StartOrUpdateTimer();
-
-                    _items.Add(item);
+                    _items.Enqueue(item);
                 }
                 else
                 {
@@ -43,6 +46,15 @@ namespace SmartPlaylist.Infrastructure.Queue
                     OnTimerCallback(null);
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding item to live queue: {ex.Message}");
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
+
         }
 
         private void StartOrUpdateTimer()
@@ -65,18 +77,22 @@ namespace SmartPlaylist.Infrastructure.Queue
 
         private void OnTimerCallback(object state)
         {
-            lock (_lock)
+            try
             {
+                _semaphore.Wait(5000);
                 Dequeue();
+            }
+            finally
+            {
+                _semaphore.Release();
             }
         }
 
         private void Dequeue()
         {
             StopTimer();
-            var items = _items.ToList();
+            var items = Items.DequeueAll();
             Task.Run(() => _onDequeue(items));
-            _items.Clear();
         }
 
         private void StopTimer()

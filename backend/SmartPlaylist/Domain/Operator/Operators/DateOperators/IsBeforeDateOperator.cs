@@ -16,5 +16,10 @@ namespace SmartPlaylist.Domain.Operator.Operators.DateOperators
         {
             return itemValue.Value.Date < value.Value.Date;
         }
+
+        public override bool Compare(ArrayValue<DateValue> itemValues, DateValue value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

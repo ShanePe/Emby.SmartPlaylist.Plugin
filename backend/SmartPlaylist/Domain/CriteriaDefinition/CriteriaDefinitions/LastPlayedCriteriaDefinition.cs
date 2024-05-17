@@ -3,7 +3,7 @@ using SmartPlaylist.Domain.Values;
 
 namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 {
-    public class LastPlayedCriteriaDefinition : CriteriaDefinition
+    public class LastPlayedCriteriaDefinition : UserCriteriaDefinition
     {
         public override string Name => "Last Played";
         public override CriteriaDefinitionType Type => DateDefinitionType.Instance;

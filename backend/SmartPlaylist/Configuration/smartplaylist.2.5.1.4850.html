@@ -1,0 +1,1288 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>SmartPlaylist plugin</title>
+</head>
+
+<body>
+  <<div is="emby-scroller" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false"
+    data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true"
+    data-controller="__plugin/smartplaylist.2.5.1.4850.js" data-title="Smart Playlist"
+    data-require="formDialogStyle,emby-scroller,emby-input,emby-button,emby-select,emby-checkbox,emby-linkbutton,emby-select">
+    <style>
+      .inline>.selectArrowContainer>div {
+        display: none
+      }
+
+      .selectContainer:hover .selectLabel {
+        color: hsl(var(--theme-primary-color-hue), var(--theme-primary-color-saturation), var(--theme-primary-color-lightness)) !important
+      }
+
+      .inline {
+        margin: .25em 0
+      }
+
+      .inline,
+      .max-width {
+        width: 100%
+      }
+
+      .padding-lr {
+        padding-left: 2px;
+        padding-right: 2px
+      }
+
+      .emby-button[disabled] {
+        opacity: .3
+      }
+
+      .formDialogContent {
+        padding-left: 10px;
+        padding-right: 10px
+      }
+
+      .dialog-small {
+        border: 0 !important;
+        border-radius: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;
+        max-width: none !important;
+        padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0) !important;
+        right: 0 !important;
+        top: 0 !important;
+        width: auto !important
+      }
+
+      :root {
+        --toastify-color-light: #fff;
+        --toastify-color-dark: #121212;
+        --toastify-color-info: #3498db;
+        --toastify-color-success: #07bc0c;
+        --toastify-color-warning: #f1c40f;
+        --toastify-color-error: #e74c3c;
+        --toastify-color-transparent: hsla(0, 0%, 100%, .7);
+        --toastify-icon-color-info: var(--toastify-color-info);
+        --toastify-icon-color-success: var(--toastify-color-success);
+        --toastify-icon-color-warning: var(--toastify-color-warning);
+        --toastify-icon-color-error: var(--toastify-color-error);
+        --toastify-toast-width: 320px;
+        --toastify-toast-background: #fff;
+        --toastify-toast-min-height: 64px;
+        --toastify-toast-max-height: 800px;
+        --toastify-font-family: sans-serif;
+        --toastify-z-index: 9999;
+        --toastify-text-color-light: #757575;
+        --toastify-text-color-dark: #fff;
+        --toastify-text-color-info: #fff;
+        --toastify-text-color-success: #fff;
+        --toastify-text-color-warning: #fff;
+        --toastify-text-color-error: #fff;
+        --toastify-spinner-color: #616161;
+        --toastify-spinner-color-empty-area: #e0e0e0;
+        --toastify-color-progress-light: linear-gradient(90deg, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55);
+        --toastify-color-progress-dark: #bb86fc;
+        --toastify-color-progress-info: var(--toastify-color-info);
+        --toastify-color-progress-success: var(--toastify-color-success);
+        --toastify-color-progress-warning: var(--toastify-color-warning);
+        --toastify-color-progress-error: var(--toastify-color-error)
+      }
+
+      .Toastify__toast-container {
+        box-sizing: border-box;
+        color: #fff;
+        padding: 4px;
+        position: fixed;
+        -webkit-transform: translate3d(0, 0, var(--toastify-z-index) px);
+        width: var(--toastify-toast-width);
+        z-index: var(--toastify-z-index)
+      }
+
+      .Toastify__toast-container--top-left {
+        left: 1em;
+        top: 1em
+      }
+
+      .Toastify__toast-container--top-center {
+        left: 50%;
+        top: 1em;
+        transform: translateX(-50%)
+      }
+
+      .Toastify__toast-container--top-right {
+        right: 1em;
+        top: 1em
+      }
+
+      .Toastify__toast-container--bottom-left {
+        bottom: 1em;
+        left: 1em
+      }
+
+      .Toastify__toast-container--bottom-center {
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%)
+      }
+
+      .Toastify__toast-container--bottom-right {
+        bottom: 1em;
+        right: 1em
+      }
+
+      @media only screen and (max-width:480px) {
+        .Toastify__toast-container {
+          left: 0;
+          margin: 0;
+          padding: 0;
+          width: 100vw
+        }
+
+        .Toastify__toast-container--top-center,
+        .Toastify__toast-container--top-left,
+        .Toastify__toast-container--top-right {
+          top: 0;
+          transform: translateX(0)
+        }
+
+        .Toastify__toast-container--bottom-center,
+        .Toastify__toast-container--bottom-left,
+        .Toastify__toast-container--bottom-right {
+          bottom: 0;
+          transform: translateX(0)
+        }
+
+        .Toastify__toast-container--rtl {
+          left: auto;
+          right: 0
+        }
+      }
+
+      .Toastify__toast {
+        -ms-flex-pack: justify;
+        border-radius: 4px;
+        box-shadow: 0 1px 10px 0 rgba(0, 0, 0, .1), 0 2px 15px 0 rgba(0, 0, 0, .05);
+        box-sizing: border-box;
+        cursor: pointer;
+        direction: ltr;
+        display: -ms-flexbox;
+        display: flex;
+        font-family: var(--toastify-font-family);
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        max-height: var(--toastify-toast-max-height);
+        min-height: var(--toastify-toast-min-height);
+        overflow: hidden;
+        padding: 8px;
+        position: relative
+      }
+
+      .Toastify__toast--rtl {
+        direction: rtl
+      }
+
+      .Toastify__toast-body {
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        margin: auto 0;
+        padding: 6px
+      }
+
+      .Toastify__toast-body>div:last-child {
+        -ms-flex: 1;
+        flex: 1
+      }
+
+      .Toastify__toast-icon {
+        -webkit-margin-end: 10px;
+        -ms-flex-negative: 0;
+        display: -ms-flexbox;
+        display: flex;
+        flex-shrink: 0;
+        margin-inline-end: 10px;
+        width: 20px
+      }
+
+      .Toastify--animate {
+        animation-duration: .7s;
+        animation-fill-mode: both
+      }
+
+      .Toastify--animate-icon {
+        animation-duration: .3s;
+        animation-fill-mode: both
+      }
+
+      @media only screen and (max-width:480px) {
+        .Toastify__toast {
+          border-radius: 0;
+          margin-bottom: 0
+        }
+      }
+
+      .Toastify__toast-theme--dark {
+        background: var(--toastify-color-dark);
+        color: var(--toastify-text-color-dark)
+      }
+
+      .Toastify__toast-theme--colored.Toastify__toast--default,
+      .Toastify__toast-theme--light {
+        background: var(--toastify-color-light);
+        color: var(--toastify-text-color-light)
+      }
+
+      .Toastify__toast-theme--colored.Toastify__toast--info {
+        background: var(--toastify-color-info);
+        color: var(--toastify-text-color-info)
+      }
+
+      .Toastify__toast-theme--colored.Toastify__toast--success {
+        background: var(--toastify-color-success);
+        color: var(--toastify-text-color-success)
+      }
+
+      .Toastify__toast-theme--colored.Toastify__toast--warning {
+        background: var(--toastify-color-warning);
+        color: var(--toastify-text-color-warning)
+      }
+
+      .Toastify__toast-theme--colored.Toastify__toast--error {
+        background: var(--toastify-color-error);
+        color: var(--toastify-text-color-error)
+      }
+
+      .Toastify__progress-bar-theme--light {
+        background: var(--toastify-color-progress-light)
+      }
+
+      .Toastify__progress-bar-theme--dark {
+        background: var(--toastify-color-progress-dark)
+      }
+
+      .Toastify__progress-bar--info {
+        background: var(--toastify-color-progress-info)
+      }
+
+      .Toastify__progress-bar--success {
+        background: var(--toastify-color-progress-success)
+      }
+
+      .Toastify__progress-bar--warning {
+        background: var(--toastify-color-progress-warning)
+      }
+
+      .Toastify__progress-bar--error {
+        background: var(--toastify-color-progress-error)
+      }
+
+      .Toastify__progress-bar-theme--colored.Toastify__progress-bar--error,
+      .Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,
+      .Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,
+      .Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning {
+        background: var(--toastify-color-transparent)
+      }
+
+      .Toastify__close-button {
+        -ms-flex-item-align: start;
+        align-self: flex-start;
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        opacity: .7;
+        outline: none;
+        padding: 0;
+        transition: .3s ease
+      }
+
+      .Toastify__close-button--light {
+        color: #000;
+        opacity: .3
+      }
+
+      .Toastify__close-button>svg {
+        fill: currentColor;
+        height: 16px;
+        width: 14px
+      }
+
+      .Toastify__close-button:focus,
+      .Toastify__close-button:hover {
+        opacity: 1
+      }
+
+      @keyframes Toastify__trackProgress {
+        0% {
+          transform: scaleX(1)
+        }
+
+        to {
+          transform: scaleX(0)
+        }
+      }
+
+      .Toastify__progress-bar {
+        bottom: 0;
+        height: 5px;
+        left: 0;
+        opacity: .7;
+        position: absolute;
+        transform-origin: left;
+        width: 100%;
+        z-index: var(--toastify-z-index)
+      }
+
+      .Toastify__progress-bar--animated {
+        animation: Toastify__trackProgress linear 1 forwards
+      }
+
+      .Toastify__progress-bar--controlled {
+        transition: transform .2s
+      }
+
+      .Toastify__progress-bar--rtl {
+        left: auto;
+        right: 0;
+        transform-origin: right
+      }
+
+      .Toastify__spinner {
+        animation: Toastify__spin .65s linear infinite;
+        border: 2px solid;
+        border-color: var(--toastify-spinner-color-empty-area);
+        border-radius: 100%;
+        border-right-color: var(--toastify-spinner-color);
+        box-sizing: border-box;
+        height: 20px;
+        width: 20px
+      }
+
+      @keyframes Toastify__bounceInRight {
+
+        0%,
+        60%,
+        75%,
+        90%,
+        to {
+          animation-timing-function: cubic-bezier(.215, .61, .355, 1)
+        }
+
+        0% {
+          opacity: 0;
+          transform: translate3d(3000px, 0, 0)
+        }
+
+        60% {
+          opacity: 1;
+          transform: translate3d(-25px, 0, 0)
+        }
+
+        75% {
+          transform: translate3d(10px, 0, 0)
+        }
+
+        90% {
+          transform: translate3d(-5px, 0, 0)
+        }
+
+        to {
+          transform: none
+        }
+      }
+
+      @keyframes Toastify__bounceOutRight {
+        20% {
+          opacity: 1;
+          transform: translate3d(-20px, 0, 0)
+        }
+
+        to {
+          opacity: 0;
+          transform: translate3d(2000px, 0, 0)
+        }
+      }
+
+      @keyframes Toastify__bounceInLeft {
+
+        0%,
+        60%,
+        75%,
+        90%,
+        to {
+          animation-timing-function: cubic-bezier(.215, .61, .355, 1)
+        }
+
+        0% {
+          opacity: 0;
+          transform: translate3d(-3000px, 0, 0)
+        }
+
+        60% {
+          opacity: 1;
+          transform: translate3d(25px, 0, 0)
+        }
+
+        75% {
+          transform: translate3d(-10px, 0, 0)
+        }
+
+        90% {
+          transform: translate3d(5px, 0, 0)
+        }
+
+        to {
+          transform: none
+        }
+      }
+
+      @keyframes Toastify__bounceOutLeft {
+        20% {
+          opacity: 1;
+          transform: translate3d(20px, 0, 0)
+        }
+
+        to {
+          opacity: 0;
+          transform: translate3d(-2000px, 0, 0)
+        }
+      }
+
+      @keyframes Toastify__bounceInUp {
+
+        0%,
+        60%,
+        75%,
+        90%,
+        to {
+          animation-timing-function: cubic-bezier(.215, .61, .355, 1)
+        }
+
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 3000px, 0)
+        }
+
+        60% {
+          opacity: 1;
+          transform: translate3d(0, -20px, 0)
+        }
+
+        75% {
+          transform: translate3d(0, 10px, 0)
+        }
+
+        90% {
+          transform: translate3d(0, -5px, 0)
+        }
+
+        to {
+          transform: translateZ(0)
+        }
+      }
+
+      @keyframes Toastify__bounceOutUp {
+        20% {
+          transform: translate3d(0, -10px, 0)
+        }
+
+        40%,
+        45% {
+          opacity: 1;
+          transform: translate3d(0, 20px, 0)
+        }
+
+        to {
+          opacity: 0;
+          transform: translate3d(0, -2000px, 0)
+        }
+      }
+
+      @keyframes Toastify__bounceInDown {
+
+        0%,
+        60%,
+        75%,
+        90%,
+        to {
+          animation-timing-function: cubic-bezier(.215, .61, .355, 1)
+        }
+
+        0% {
+          opacity: 0;
+          transform: translate3d(0, -3000px, 0)
+        }
+
+        60% {
+          opacity: 1;
+          transform: translate3d(0, 25px, 0)
+        }
+
+        75% {
+          transform: translate3d(0, -10px, 0)
+        }
+
+        90% {
+          transform: translate3d(0, 5px, 0)
+        }
+
+        to {
+          transform: none
+        }
+      }
+
+      @keyframes Toastify__bounceOutDown {
+        20% {
+          transform: translate3d(0, 10px, 0)
+        }
+
+        40%,
+        45% {
+          opacity: 1;
+          transform: translate3d(0, -20px, 0)
+        }
+
+        to {
+          opacity: 0;
+          transform: translate3d(0, 2000px, 0)
+        }
+      }
+
+      .Toastify__bounce-enter--bottom-left,
+      .Toastify__bounce-enter--top-left {
+        animation-name: Toastify__bounceInLeft
+      }
+
+      .Toastify__bounce-enter--bottom-right,
+      .Toastify__bounce-enter--top-right {
+        animation-name: Toastify__bounceInRight
+      }
+
+      .Toastify__bounce-enter--top-center {
+        animation-name: Toastify__bounceInDown
+      }
+
+      .Toastify__bounce-enter--bottom-center {
+        animation-name: Toastify__bounceInUp
+      }
+
+      .Toastify__bounce-exit--bottom-left,
+      .Toastify__bounce-exit--top-left {
+        animation-name: Toastify__bounceOutLeft
+      }
+
+      .Toastify__bounce-exit--bottom-right,
+      .Toastify__bounce-exit--top-right {
+        animation-name: Toastify__bounceOutRight
+      }
+
+      .Toastify__bounce-exit--top-center {
+        animation-name: Toastify__bounceOutUp
+      }
+
+      .Toastify__bounce-exit--bottom-center {
+        animation-name: Toastify__bounceOutDown
+      }
+
+      @keyframes Toastify__zoomIn {
+        0% {
+          opacity: 0;
+          transform: scale3d(.3, .3, .3)
+        }
+
+        50% {
+          opacity: 1
+        }
+      }
+
+      @keyframes Toastify__zoomOut {
+        0% {
+          opacity: 1
+        }
+
+        50% {
+          opacity: 0;
+          transform: scale3d(.3, .3, .3)
+        }
+
+        to {
+          opacity: 0
+        }
+      }
+
+      .Toastify__zoom-enter {
+        animation-name: Toastify__zoomIn
+      }
+
+      .Toastify__zoom-exit {
+        animation-name: Toastify__zoomOut
+      }
+
+      @keyframes Toastify__flipIn {
+        0% {
+          animation-timing-function: ease-in;
+          opacity: 0;
+          transform: perspective(400px) rotateX(90deg)
+        }
+
+        40% {
+          animation-timing-function: ease-in;
+          transform: perspective(400px) rotateX(-20deg)
+        }
+
+        60% {
+          opacity: 1;
+          transform: perspective(400px) rotateX(10deg)
+        }
+
+        80% {
+          transform: perspective(400px) rotateX(-5deg)
+        }
+
+        to {
+          transform: perspective(400px)
+        }
+      }
+
+      @keyframes Toastify__flipOut {
+        0% {
+          transform: perspective(400px)
+        }
+
+        30% {
+          opacity: 1;
+          transform: perspective(400px) rotateX(-20deg)
+        }
+
+        to {
+          opacity: 0;
+          transform: perspective(400px) rotateX(90deg)
+        }
+      }
+
+      .Toastify__flip-enter {
+        animation-name: Toastify__flipIn
+      }
+
+      .Toastify__flip-exit {
+        animation-name: Toastify__flipOut
+      }
+
+      @keyframes Toastify__slideInRight {
+        0% {
+          transform: translate3d(110%, 0, 0);
+          visibility: visible
+        }
+
+        to {
+          transform: translateZ(0)
+        }
+      }
+
+      @keyframes Toastify__slideInLeft {
+        0% {
+          transform: translate3d(-110%, 0, 0);
+          visibility: visible
+        }
+
+        to {
+          transform: translateZ(0)
+        }
+      }
+
+      @keyframes Toastify__slideInUp {
+        0% {
+          transform: translate3d(0, 110%, 0);
+          visibility: visible
+        }
+
+        to {
+          transform: translateZ(0)
+        }
+      }
+
+      @keyframes Toastify__slideInDown {
+        0% {
+          transform: translate3d(0, -110%, 0);
+          visibility: visible
+        }
+
+        to {
+          transform: translateZ(0)
+        }
+      }
+
+      @keyframes Toastify__slideOutRight {
+        0% {
+          transform: translateZ(0)
+        }
+
+        to {
+          transform: translate3d(110%, 0, 0);
+          visibility: hidden
+        }
+      }
+
+      @keyframes Toastify__slideOutLeft {
+        0% {
+          transform: translateZ(0)
+        }
+
+        to {
+          transform: translate3d(-110%, 0, 0);
+          visibility: hidden
+        }
+      }
+
+      @keyframes Toastify__slideOutDown {
+        0% {
+          transform: translateZ(0)
+        }
+
+        to {
+          transform: translate3d(0, 500px, 0);
+          visibility: hidden
+        }
+      }
+
+      @keyframes Toastify__slideOutUp {
+        0% {
+          transform: translateZ(0)
+        }
+
+        to {
+          transform: translate3d(0, -500px, 0);
+          visibility: hidden
+        }
+      }
+
+      .Toastify__slide-enter--bottom-left,
+      .Toastify__slide-enter--top-left {
+        animation-name: Toastify__slideInLeft
+      }
+
+      .Toastify__slide-enter--bottom-right,
+      .Toastify__slide-enter--top-right {
+        animation-name: Toastify__slideInRight
+      }
+
+      .Toastify__slide-enter--top-center {
+        animation-name: Toastify__slideInDown
+      }
+
+      .Toastify__slide-enter--bottom-center {
+        animation-name: Toastify__slideInUp
+      }
+
+      .Toastify__slide-exit--bottom-left,
+      .Toastify__slide-exit--top-left {
+        animation-name: Toastify__slideOutLeft
+      }
+
+      .Toastify__slide-exit--bottom-right,
+      .Toastify__slide-exit--top-right {
+        animation-name: Toastify__slideOutRight
+      }
+
+      .Toastify__slide-exit--top-center {
+        animation-name: Toastify__slideOutUp
+      }
+
+      .Toastify__slide-exit--bottom-center {
+        animation-name: Toastify__slideOutDown
+      }
+
+      @keyframes Toastify__spin {
+        0% {
+          transform: rotate(0deg)
+        }
+
+        to {
+          transform: rotate(1turn)
+        }
+      }
+
+      .confirm-text {
+        display: inline;
+        margin: 10px;
+        padding: 10px
+      }
+
+      .confirm-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px
+      }
+
+      .deletePlaylist {
+        bottom: 10px;
+        font-size: smaller;
+        left: 0;
+        padding: 10px;
+        position: absolute
+      }
+
+      .checkbox-container {
+        margin: auto;
+        padding-right: .25em;
+        width: auto
+      }
+
+      .main-container {
+        display: flex;
+        flex-direction: column
+      }
+
+      .text-container div {
+        border: calc(var(--line-size)*1.8) solid var(--line-background);
+        border-radius: .3em;
+        padding: 10px
+      }
+
+      .text-container textarea {
+        border: none;
+        height: 100%;
+        margin: -10px;
+        outline: none;
+        padding: 10px;
+        resize: none;
+        width: 100%
+      }
+
+      .text-container:focus-within .selectLabel {
+        color: var(--theme-accent-text-color)
+      }
+
+      .text-container:focus-within div {
+        border-color: hsl(var(--theme-primary-color-hue), var(--theme-primary-color-saturation), var(--theme-primary-color-lightness)) !important
+      }
+
+      .hier-str {
+        max-width: 600px;
+        width: 100%
+      }
+
+      .tree-button-container {
+        position: relative
+      }
+
+      .tree-button-inner {
+        position: absolute;
+        right: 4px
+      }
+
+      input[type=number].input-padding-fix,
+      input[type=text].input-padding-fix {
+        padding-bottom: .5em;
+        padding-left: .5em;
+        padding-top: .5em
+      }
+
+      .inline label {
+        display: block
+      }
+
+      .inputContainer .inline {
+        width: 100%
+      }
+
+      .menu-container-input {
+        cursor: pointer;
+        font-size: large
+      }
+
+      .row-container {
+        align-items: center;
+        display: flex;
+        width: 100%
+      }
+
+      .toggle-container {
+        text-align: center
+      }
+
+      .toggle-switch {
+        display: inline-block;
+        position: relative;
+        text-align: left;
+        top: 8px;
+        width: 65px
+      }
+
+      .toggle-checkbox {
+        display: none
+      }
+
+      .toggle-label {
+        border: 0 solid #bbb;
+        border-radius: 20px;
+        cursor: pointer;
+        display: block;
+        overflow: hidden
+      }
+
+      .toggle-inner {
+        display: block;
+        margin-left: -100%;
+        transition: margin .3s ease-in 0s;
+        width: 200%
+      }
+
+      .toggle-inner:after,
+      .toggle-inner:before {
+        background-color: #000;
+        box-sizing: border-box;
+        color: #fff;
+        float: left;
+        font-weight: 700;
+        padding: 0;
+        width: 50%
+      }
+
+      .toggle-inner:before {
+        content: "On";
+        padding-left: 10px
+      }
+
+      .toggle-inner:after {
+        content: "Off";
+        padding-right: 10px;
+        text-align: right
+      }
+
+      .toggle-toggle-switch {
+        background-color: #fff;
+        border: 0 solid #bbb;
+        border-radius: 20px;
+        bottom: 0;
+        display: block;
+        height: 13px;
+        line-height: 13px;
+        margin: 5px;
+        position: absolute;
+        right: 30px;
+        top: 0;
+        transition: all .3s ease-in 0s;
+        width: 24px
+      }
+
+      .toggle-checkbox:checked+.toggle-label .toggle-inner {
+        margin-left: 0
+      }
+
+      .toggle-checkbox:checked+.toggle-label .toggle-toggle-switch {
+        right: 0
+      }
+
+      .label-right-container {
+        align-items: center;
+        display: flex
+      }
+
+      .label-right {
+        padding: 5px 0 0 10px
+      }
+
+      .inputContainer:hover .inputLabel,
+      .label-right-container:hover .label-right {
+        color: hsl(var(--theme-primary-color-hue), var(--theme-primary-color-saturation), var(--theme-primary-color-lightness)) !important
+      }
+
+      .menu-container {
+        cursor: pointer;
+        font-size: x-large;
+        padding: 5px;
+        position: absolute;
+        right: 15px
+      }
+
+      .menu {
+        background-color: hsla(var(--background-hue), var(--background-saturation), var(--background-lightness), 1);
+        border: calc(var(--line-size)*1.8) solid var(--line-background);
+        border-radius: 10px;
+        box-shadow: 0 0 10px hsla(0, 0%, 66%, .6);
+        display: flex;
+        flex-direction: column;
+        width: 200px
+      }
+
+      .menu-item {
+        align-items: center;
+        background-color: var(--theme-background);
+        border-bottom: calc(var(--line-size)*1.8) solid var(--line-background);
+        cursor: pointer;
+        display: inline-flex;
+        height: 28px;
+        padding: 5px
+      }
+
+      .menu-item:last-child {
+        border: none
+      }
+
+      .menu-item:hover {
+        color: var(--theme-accent-text-color)
+      }
+
+      .icon-align {
+        align-items: center;
+        display: flex;
+        font-size: x-large;
+        margin: .25em 0
+      }
+
+      .Collapsible {
+        margin-bottom: 10px
+      }
+
+      .Window_look {
+        border-radius: 10px;
+        box-shadow: 1px 1px 3px var(--line-background)
+      }
+
+      .Hide_window {
+        display: none
+      }
+
+      .Collapsible__trigger {
+        border-color: var(--line-background);
+        border-radius: 10px 10px 0 0;
+        border-style: solid;
+        border-width: var(--line-size);
+        display: block;
+        font-weight: 700;
+        padding: 10px;
+        position: relative;
+        text-decoration: none;
+
+        &:after {
+          content: '⇣';
+          display: block;
+          font-family: Material Icons Round !important;
+          font-size: large;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          transition: transform .3s
+        }
+
+        &.is-open {
+          background-color: hsla(0, 2%, 92%, .4);
+
+          &:after {
+            transform: rotate(180deg)
+          }
+        }
+
+        &.is-closed {
+          border-radius: 10px
+        }
+
+        &.is-disabled {
+          background-color: grey;
+          opacity: .5
+        }
+      }
+
+      .Collapsible__contentOuter {
+        border-color: var(--line-background);
+        border-radius: 0 0 10px 10px;
+        border-style: solid;
+        border-width: var(--line-size);
+        padding: 5px 5px 0
+      }
+
+      .textarea {
+        border-radius: 5px;
+        border-width: 1px;
+        margin: 5px;
+        padding: 5px
+      }
+
+      .thenby-container {
+        display: flex
+      }
+
+      .plist-row {
+        background-color: hsla(0, 0%, 66%, .1);
+        border: 1px solid hsla(0, 0%, 66%, .2) !important;
+        display: inline-grid !important;
+        height: 160px;
+        margin: 5px;
+        width: 220px
+      }
+
+      .plist-row:hover,
+      .plist-row:nth-child(odd):hover {
+        background-color: hsla(0, 0%, 66%, .5);
+        box-shadow: 0 0 10px hsla(0, 0%, 66%, .6)
+      }
+
+      .plist-row:nth-child(odd) {
+        background-color: hsla(0, 0%, 66%, .3);
+        border: 1px solid hsla(0, 0%, 66%, .4) !important
+      }
+
+      .plist-row .listItemBodyText {
+        display: flex;
+        text-align: center
+      }
+
+      .plist-row .listItemBodyTextSub {
+        display: flex;
+        font-size: smaller;
+        text-align: center
+      }
+
+      .plist-row .tooltiptext {
+        position: absolute;
+        right: 10px;
+        text-align: center;
+        top: 10px
+      }
+
+      .plist-row .popper {
+        display: flex;
+        justify-content: left;
+        visibility: hidden;
+        width: 100%;
+        z-index: 1
+      }
+
+      .plist-row .popper button {
+        margin: 0 !important;
+        padding: 5px !important
+      }
+
+      .plist-row .popper button :hover {
+        box-shadow: 0 6px 20px
+      }
+
+      .plist-row:hover .popper {
+        visibility: visible
+      }
+
+      .plist-row .playlist-menu {
+        bottom: 50px;
+        box-shadow: 0 6px 20px;
+        position: absolute;
+        right: -10px;
+        z-index: 2
+      }
+
+      .sp-icon:hover {
+        border-radius: 100%;
+        box-shadow: 0 0 10px var(--theme-text-color)
+      }
+
+      .plist-row-disabled {
+        background-color: rgba(255, 0, 0, .1);
+        border: 1px solid rgba(255, 0, 0, .2) !important
+      }
+
+      .plist-row-disabled:hover,
+      .plist-row-disabled:nth-child(odd):hover {
+        background-color: rgba(255, 0, 0, .2);
+        border: 1px solid rgba(255, 0, 0, .3) !important
+      }
+
+      .plist-row-disabled:nth-child(odd) {
+        background-color: rgba(255, 0, 0, .1);
+        border: 1px solid rgba(255, 0, 0, .2) !important
+      }
+
+      .plist-icon-container {
+        display: flex;
+        margin-left: 5px;
+        margin-top: 10px
+      }
+
+      .plist-icon {
+        font-size: 120%
+      }
+
+      .info-row {
+        display: block;
+        padding: 5px 10px;
+        width: 100%
+      }
+
+      .info-row-label {
+        font-weight: bolder
+      }
+
+      .info-row-label:last-child {
+        float: right
+      }
+
+      .info-row-text {
+        box-shadow: 0 1px silver;
+        display: block
+      }
+
+      .tag-list {
+        display: block
+      }
+
+      .tag-list div {
+        background-color: var(--button-background);
+        border-radius: 50px;
+        color: var(--theme-text-color);
+        margin-bottom: 10px
+      }
+
+      .tag-item {
+        background-color: var(--line-background) !important;
+        cursor: default !important
+      }
+
+      .app-container {
+        flex-flow: wrap;
+        overflow: auto
+      }
+
+      .app-container,
+      .import-loader {
+        display: flex;
+        justify-content: center;
+        width: 100%
+      }
+
+      .import-loader {
+        align-items: center;
+        flex-flow: column;
+        padding-top: 20px
+      }
+
+      .import-head {
+        font-weight: 700;
+        padding: 30px
+      }
+
+      .import-drop-zone {
+        border: 2px dashed var(--theme-accent-text-color-lightbg);
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        line-height: 100px
+      }
+    </style>
+    <div
+      class="scrollSlider flex-grow flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
+      <div data-role="content">
+        <div class="content-primary">
+          <div id="smartplaylist-root" data-app-id="3C96F5BC-4182-4B86-B05D-F730F2611E45">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+</body>
+
+</html>

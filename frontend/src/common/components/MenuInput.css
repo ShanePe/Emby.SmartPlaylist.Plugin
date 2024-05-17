@@ -1,0 +1,10 @@
+.menu-container-input {
+    cursor: pointer;
+    font-size: large;
+}
+
+.row-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}

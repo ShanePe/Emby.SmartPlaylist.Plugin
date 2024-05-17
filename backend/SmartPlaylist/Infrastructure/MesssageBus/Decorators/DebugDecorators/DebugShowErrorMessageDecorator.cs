@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Session;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators.DebugDecorators
+namespace SmartPlaylist.Infrastructure.MessageBus.Decorators.DebugDecorators
 {
     public class DebugShowErrorMessageDecorator<T> : IMessageHandlerAsync<T> where T : IMessage
     {
@@ -25,7 +25,7 @@ namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators.DebugDecorators
             }
             catch (Exception e)
             {
-                await _debugMessageManager.ShowAsync($"[ERROR]: {e.ToString().Substring(0,500)}").ConfigureAwait(false);
+                await _debugMessageManager.ShowAsync($"[ERROR]: {e.ToString().Substring(0, 500)}").ConfigureAwait(false);
                 throw;
             }
         }

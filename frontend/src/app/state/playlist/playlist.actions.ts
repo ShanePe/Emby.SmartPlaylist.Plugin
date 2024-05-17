@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-    CrtieriaValue,
+    CriteriaValue,
     GroupMatchMode,
     Rule,
     RuleCriteriaOperator,
@@ -17,7 +17,8 @@ export type PlaylistActions = {
     updateBasicData(playlistBasicData: Partial<PlaylistBasicData>): void;
     changeCriteriaDef(rule: Rule, criteriaName: string): void;
     changeOperator(rule: Rule, operatorName: string): void;
-    updateCriteriaValue(rule: Rule, value: CrtieriaValue): void;
+    updateCriteriaValue(rule: Rule, value: CriteriaValue): void;
+    updateCriteriaUser(rule: Rule, userId: string): void;
 };
 
 export const createPlaylistActions = (
@@ -26,7 +27,16 @@ export const createPlaylistActions = (
     appContext: AppContextProps,
 ): PlaylistActions => {
     return {
-        updateCriteriaValue: (rule: Rule, value: CrtieriaValue): void => {
+        updateCriteriaUser: (rule: Rule, userId: string): void => {
+            updateCriteriaState(
+                dispatcher,
+                {
+                    userId: userId,
+                },
+                rule,
+            );
+        },
+        updateCriteriaValue: (rule: Rule, value: CriteriaValue): void => {
             updateCriteriaState(
                 dispatcher,
                 {
@@ -105,7 +115,6 @@ export const createPlaylistActions = (
                     };
                 }
             }
-
             dispatcher({
                 type: 'playlist:updateData',
                 data: playlistBasicData,

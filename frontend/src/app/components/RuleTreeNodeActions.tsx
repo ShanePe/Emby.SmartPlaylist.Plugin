@@ -14,7 +14,7 @@ export const RuleTreeNodeActions: React.FC<RuleTreeNodeActionsProps> = props => 
     const { isRemovable, removeRule, addRule, addRuleGroup, canAddRule } = playlistContext;
 
     return (
-        <>
+        <div style={{ padding: '4px', display: 'inline-flex' }}>
             {canAddRule(node) && (
                 <>
                     <Button disabled={!isRemovable(node)} onClick={_ => removeRule(node)}>
@@ -30,6 +30,6 @@ export const RuleTreeNodeActions: React.FC<RuleTreeNodeActionsProps> = props => 
                     </Button>
                 </>
             )}
-        </>
+        </div>
     );
 };

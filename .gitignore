@@ -1,1 +1,4 @@
 pack
+node_modules/
+*.lock
+.vscode/

@@ -1,6 +1,6 @@
 ﻿using SmartPlaylist.Domain.Rule;
 using SmartPlaylist.Domain.Values;
-using SmartPlaylist.Services;
+using SmartPlaylist.Getters;
 
 namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 {
@@ -11,7 +11,10 @@ namespace SmartPlaylist.Domain.CriteriaDefinition.CriteriaDefinitions
 
         public override Value GetValue(UserItem item)
         {
-            return DateValue.Create(ReleaseDateGetter.Get(item.Item));
+            var releaseDate = ReleaseDateGetter.Get(item.Item);
+            if (releaseDate.HasValue) return DateValue.Create(releaseDate.Value);
+
+            return Value.None;
         }
     }
 }

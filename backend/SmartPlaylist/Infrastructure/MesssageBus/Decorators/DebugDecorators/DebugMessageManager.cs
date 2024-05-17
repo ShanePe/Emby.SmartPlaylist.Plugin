@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Session;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators.DebugDecorators
+namespace SmartPlaylist.Infrastructure.MessageBus.Decorators.DebugDecorators
 {
     public class DebugMessageManager
     {
@@ -21,7 +21,7 @@ namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators.DebugDecorators
             var command = new MessageCommand
             {
                 Header = "head",
-                TimeoutMs = (long?) TimeSpan.FromSeconds(10).TotalMilliseconds,
+                TimeoutMs = (long?)TimeSpan.FromSeconds(10).TotalMilliseconds,
                 Text = text
             };
 

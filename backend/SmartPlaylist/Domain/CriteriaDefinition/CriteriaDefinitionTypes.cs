@@ -50,6 +50,20 @@ namespace SmartPlaylist.Domain.CriteriaDefinition
         public override Operator.Operator[] Operators => OperatorsFactory.CreateListValueOperators(_defaultListValue);
     }
 
+    public class ListMapValueDefinitionType : CriteriaDefinitionType
+    {
+        private readonly ListMapValue _defaultListNameValue;
+        public ListMapValueDefinitionType(ListMapValue defaultListNameValue)
+        {
+            _defaultListNameValue = defaultListNameValue;
+        }
+
+        public override string Name => ListMapValue.Default.Kind;
+
+        public override Operator.Operator[] Operators => OperatorsFactory.CreateListMapValueOperators(_defaultListNameValue);
+
+    }
+
     public class BoolValueDefinitionType : CriteriaDefinitionType
     {
         public static readonly CriteriaDefinitionType Instance = new BoolValueDefinitionType();

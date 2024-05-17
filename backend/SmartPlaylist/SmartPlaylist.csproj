@@ -1,28 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.5.1.4850</Version>
+    <FileVersion>2.5.1.4850</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <None Remove="Configuration\main.css" />
-    <None Remove="Configuration\react.js" />
-    <None Remove="Configuration\smartplaylist.css" />
-    <None Remove="Configuration\smartplaylist.html" />
-    <None Remove="Configuration\smartplaylist.js" />
-    <None Remove="Configuration\test.html" />
-    <None Remove="Configuration\test.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Configuration\smartplaylist.html" />
-    <EmbeddedResource Include="Configuration\*.css" />
+    <EmbeddedResource Include="Configuration\smartplaylist.2.5.1.4850.html" />
+    <EmbeddedResource Include="Configuration\thumb.png" />
     <EmbeddedResource Include="Configuration\*.js" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="MediaBrowser.Server.Core" Version="4.4.0.15-beta" />
-    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="MediaBrowser.Server.Core" Version="4.8.2" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
 </Project>

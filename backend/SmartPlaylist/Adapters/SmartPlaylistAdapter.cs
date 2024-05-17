@@ -11,29 +11,7 @@ namespace SmartPlaylist.Adapters
     {
         public static Domain.SmartPlaylist Adapt(SmartPlaylistDto dto)
         {
-            return new Domain.SmartPlaylist(Guid.Parse(dto.Id), dto.Name, dto.UserId,
-                new RuleBase[] {RuleAdapter.Adapt(dto.RulesTree)}, GetLimit(dto.Limit), dto.LastShuffleUpdate,
-                GetUpdateType(dto.UpdateType), dto);
-        }
-
-        private static UpdateType GetUpdateType(string updateTypeName)
-        {
-            if (Enum.TryParse(updateTypeName, true, out UpdateType updateType)) return updateType;
-
-            return UpdateType.Live;
-        }
-
-        private static SmartPlaylistLimit GetLimit(SmartPlaylistLimitDto dto)
-        {
-            if (!dto.HasLimit) return SmartPlaylistLimit.None;
-
-            return new SmartPlaylistLimit
-            {
-                MaxItems = dto.MaxItems,
-                OrderBy = DefinedLimitOrders.All.FirstOrDefault(x =>
-                              string.Equals(x.Name, dto.OrderBy, StringComparison.CurrentCultureIgnoreCase)) ??
-                          SmartPlaylistLimit.None.OrderBy
-            };
+            return new Domain.SmartPlaylist(dto);
         }
 
         public static Domain.SmartPlaylist[] Adapt(IEnumerable<SmartPlaylistDto> smartPlaylistDtos)

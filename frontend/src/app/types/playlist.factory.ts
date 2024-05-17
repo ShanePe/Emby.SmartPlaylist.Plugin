@@ -8,7 +8,11 @@ import {
     addChildNode,
     addNewNode,
 } from '~/common/components/TreeView/actions/treeViewData.actions';
-import { deafultPlaylistLimit, defaultUpdateType } from '~/app/app.const';
+import { defaultPlaylistLimit, defaultSmartType, defaultUpdateType, defaultCollectionMode, defaultNewItemOrder, defaultSortJob, defaultUISections } from '~/app/app.const';
+
+export const duplicatePlaylist = (plalist: Playlist): Playlist => {
+    return { ...plalist, id: Guid.newGuid(), internalId: -1, name: plalist.name + ' (Copy)' };
+}
 
 export const createPlaylist = (): Playlist => {
     const newChildNode = createTreeNodeData({
@@ -34,7 +38,18 @@ export const createPlaylist = (): Playlist => {
         id: Guid.newGuid(),
         name: '',
         rulesTree: rulesTree,
-        limit: deafultPlaylistLimit,
+        limit: defaultPlaylistLimit,
         updateType: defaultUpdateType,
+        smartType: defaultSmartType,
+        collectionMode: defaultCollectionMode,
+        priorNames: [],
+        enabled: true,
+        newItemOrder: defaultNewItemOrder,
+        sourceType: 'Media Items',
+        source: undefined,
+        sortJob: defaultSortJob,
+        monitorMode: false,
+        uiSections: defaultUISections,
+        notes: ''
     };
 };

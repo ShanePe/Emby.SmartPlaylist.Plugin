@@ -1,33 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Entities;
+using SmartPlaylist.Domain;
 using SmartPlaylist.Handlers.Commands;
 using SmartPlaylist.Infrastructure;
-using SmartPlaylist.Infrastructure.MesssageBus;
+using SmartPlaylist.Infrastructure.MessageBus;
 using SmartPlaylist.Services;
 using SmartPlaylist.Services.SmartPlaylist;
 
 namespace SmartPlaylist.Handlers.CommandHandlers
 {
-    public class
-        UpdateAllSmartPlaylistsCommandHandler : IMessageHandlerAsync<UpdateAllSmartPlaylistsCommand>
+    public class UpdateAllSmartPlaylistsCommandHandler : IMessageHandlerAsync<UpdateAllSmartPlaylistsCommand>
     {
         private readonly MessageBus _messageBus;
-        private readonly IPlaylistItemsUpdater _playlistItemsUpdater;
-        private readonly IPlaylistRepository _playlistRepository;
+        private readonly IFolderItemsUpdater _playlistItemsUpdater;
+        private readonly IFolderItemsUpdater _collectionItemsUpdater;
+        private readonly IFolderRepository _folderRepository;
         private readonly ISmartPlaylistProvider _smartPlaylistProvider;
+        private readonly ISmartPlaylistStore _smartPlaylistStore;
 
         public UpdateAllSmartPlaylistsCommandHandler(MessageBus messageBus,
-            ISmartPlaylistProvider smartPlaylistProvider, IPlaylistRepository playlistRepository,
-            IPlaylistItemsUpdater playlistItemsUpdater)
+            ISmartPlaylistProvider smartPlaylistProvider, IFolderRepository folderRepository,
+            IFolderItemsUpdater playlistItemsUpdater, IFolderItemsUpdater collectionItemsUpdater, ISmartPlaylistStore smartPlaylistStore)
         {
             _messageBus = messageBus;
             _smartPlaylistProvider = smartPlaylistProvider;
-            _playlistRepository = playlistRepository;
+            _folderRepository = folderRepository;
             _playlistItemsUpdater = playlistItemsUpdater;
+            _collectionItemsUpdater = collectionItemsUpdater;
+            _smartPlaylistProvider = smartPlaylistProvider;
+            _smartPlaylistStore = smartPlaylistStore;
         }
-
 
         public async Task HandleAsync(UpdateAllSmartPlaylistsCommand message)
         {
@@ -47,7 +53,7 @@ namespace SmartPlaylist.Handlers.CommandHandlers
             UpdateAllSmartPlaylistsCommand message, Domain.SmartPlaylist[] smartPlaylists)
         {
             return message.HasItems
-                ? smartPlaylists.Where(x => x.CanUpdatePlaylistWithNewItems).ToArray()
+                ? smartPlaylists.Where(x => x.UpdateType == Domain.UpdateType.Live || (x.IsShuffleUpdateType && x.MonitorMode)).ToArray()
                 : new Domain.SmartPlaylist[0];
         }
 
@@ -59,21 +65,14 @@ namespace SmartPlaylist.Handlers.CommandHandlers
 
         private async Task GetTasks(Domain.SmartPlaylist smartPlaylist, BaseItem[] items)
         {
-            BaseItem[] newItems;
-            var playlist = _playlistRepository.GetUserPlaylist(smartPlaylist.UserId, smartPlaylist.Name);
-            using (PerfLogger.Create("FilterPlaylistItems",
-                () => new {playlistName = playlist.Name, itemsCount = items.Length}))
-            {
-                newItems = smartPlaylist.FilterPlaylistItems(playlist, items).ToArray();
-            }
-
-            await _playlistItemsUpdater.UpdateAsync(playlist, newItems).ConfigureAwait(false);
+            SmartPlaylistUpdater updater = new SmartPlaylistUpdater(_folderRepository, _playlistItemsUpdater, _collectionItemsUpdater, _smartPlaylistStore, ExecutionModes.Scheduled);
+            await updater.Update(smartPlaylist, items);
         }
 
 
         private void UpdateSmartPlaylistsWithAllUserItems(IEnumerable<Domain.SmartPlaylist> smartPlaylists)
         {
-            smartPlaylists.ToList().ForEach(x => _messageBus.Publish(new UpdateSmartPlaylistCommand(x.Id)));
+            smartPlaylists.ToList().ForEach(x => _messageBus.Publish(new UpdateSmartPlaylistCommand(x.Id, ExecutionModes.Scheduled)));
         }
     }
 }

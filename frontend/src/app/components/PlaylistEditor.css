@@ -1,0 +1,59 @@
+.Collapsible {
+    margin-bottom: 10px;
+}
+
+.Window_look {
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px var(--line-background);
+}
+
+.Hide_window {
+    display: none;
+}
+
+.Collapsible__trigger {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    padding: 10px;
+    border-style: solid;
+    border-width: var(--line-size);
+    border-color: var(--line-background);
+    border-radius: 10px 10px 0px 0px;
+
+    &:after {
+        content: '⇣';
+        display: block;
+        font-family: 'Material Icons Round' !important;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        transition: transform 0.3s;
+        font-size: large;
+    }
+
+    &.is-open {
+        background-color: hsla(0, 2.3%, 91.6%, 0.4);
+        &:after {
+            transform: rotateZ(180deg);
+        }
+    }
+
+    &.is-closed {
+        border-radius: 10px;
+    }
+
+    &.is-disabled {
+        opacity: 0.5;
+        background-color: grey;
+    }
+}
+
+.Collapsible__contentOuter {
+    border-style: solid;
+    border-width: var(--line-size);
+    border-color: var(--line-background);
+    border-radius: 0px 0px 10px 10px;
+    padding: 5px 5px 0px 5px;
+}

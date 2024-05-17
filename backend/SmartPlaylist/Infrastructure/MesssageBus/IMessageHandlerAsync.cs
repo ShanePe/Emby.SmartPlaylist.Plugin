@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus
+namespace SmartPlaylist.Infrastructure.MessageBus
 {
     public interface IMessageHandlerAsync<in T> where T : IMessage
     {

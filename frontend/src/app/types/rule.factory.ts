@@ -31,5 +31,6 @@ export const createRuleCriteriaValue = (): RuleCriteriaValue => {
         name: criteriaDefinition.name,
         operator: criteriaDefinition.type.operators[0],
         value: criteriaDefinition.type.operators[0].defaultValue,
+        userId: criteriaDefinition.userId
     };
 };

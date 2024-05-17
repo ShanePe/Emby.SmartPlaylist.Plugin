@@ -9,6 +9,7 @@ namespace SmartPlaylist.Contracts
     {
         private Value _value;
         public string Name { get; set; }
+        public string UserId { get; set; }
 
         public object Value
         {

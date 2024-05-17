@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {
-    CrtieriaValue,
+    CriteriaValue,
     DateRangeValue,
     DateValue,
     LastPeriodValue,
+    ListMapValue,
     ListValue,
     ListValueRange,
     NumberRangeValue,
     NumberValue,
     OperatorType,
+    RegexValue,
     StringValue,
 } from '~/app/types/rule';
 import { SingleDate } from '~/app/components/RuleEditor/ValueInputs/SingleDate';
@@ -19,18 +21,21 @@ import { ListValueInput } from '~/app/components/RuleEditor/ValueInputs/ListValu
 import { NumberValueInput } from '~/app/components/RuleEditor/ValueInputs/NumberValue';
 import { NumberRangeValueInput } from '~/app/components/RuleEditor/ValueInputs/NumberRange';
 import { ListValueRangeInput } from '~/app/components/RuleEditor/ValueInputs/ListValueRange';
+import { ListMapValueInput } from '~/app/components/RuleEditor/ValueInputs/ListMapValue';
+import { RegexValueInput } from './ValueInputs/Regex';
 
 type ValueInputProps = {
     type: OperatorType;
-    value: CrtieriaValue;
-    values: CrtieriaValue[];
-    onChange(value: CrtieriaValue): void;
+    value: CriteriaValue;
+    values: CriteriaValue[];
+    onChange(value: CriteriaValue): void;
 };
 
 export const ValueInput: React.FC<ValueInputProps> = props => {
     const { value, type, onChange, values } = props;
 
     const renderValueInput = () => {
+
         switch (type) {
             case 'string':
                 return (
@@ -65,6 +70,14 @@ export const ValueInput: React.FC<ValueInputProps> = props => {
                         onChange={newVal => onChange(newVal)}
                     />
                 );
+            case 'listMapValue':
+                return (
+                    <ListMapValueInput
+                        value={value as ListMapValue}
+                        values={values as ListMapValue[]}
+                        onChange={newVal => onChange(newVal)}
+                    />
+                );
             case 'number':
                 return (
                     <NumberValueInput
@@ -87,9 +100,17 @@ export const ValueInput: React.FC<ValueInputProps> = props => {
                         onChange={newVal => onChange(newVal)}
                     />
                 );
+            case 'regex':
+                return (
+                    <RegexValueInput
+                        value={value as RegexValue}
+                        onChange={newVal => onChange(newVal)}
+                    />
+                )
             default:
                 return <></>;
         }
+
     };
 
     return <>{renderValueInput()}</>;

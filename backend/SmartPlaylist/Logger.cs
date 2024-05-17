@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Model.Logging;
+﻿using System;
+using MediaBrowser.Model.Logging;
 
 namespace SmartPlaylist
 {
@@ -20,6 +21,11 @@ namespace SmartPlaylist
         public void LogDebug(string message)
         {
             _logger.Debug("[SmartPlaylist]:" + message);
+        }
+
+        public void LogError(Exception e)
+        {
+            _logger.ErrorException($"[SmartPlaylist][Error]: {e.Message}", e);
         }
     }
 }

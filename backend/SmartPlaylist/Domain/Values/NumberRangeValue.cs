@@ -1,6 +1,6 @@
 ﻿namespace SmartPlaylist.Domain.Values
 {
-    public class NumberRangeValue : Value
+    public class NumberRangeValue : EmptyableValue
     {
         public static readonly NumberRangeValue Default = new NumberRangeValue(0, 0);
 
@@ -13,6 +13,10 @@
         public override string Kind => "numberRange";
         public float From { get; }
         public float To { get; }
+
+        internal override bool IsEmpty => IsNone || (From == 0 && To == 0);
+
+        internal override string Friendly => $"Range: {From} to {To}";
 
         public static NumberRangeValue Create(float from, float to)
         {
@@ -29,7 +33,7 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((NumberRangeValue) obj);
+            return Equals((NumberRangeValue)obj);
         }
 
         public override int GetHashCode()

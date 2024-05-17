@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Session;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators.DebugDecorators
+namespace SmartPlaylist.Infrastructure.MessageBus.Decorators.DebugDecorators
 {
     public class DebugShowDurationMessageDecorator<T> : IMessageHandlerAsync<T> where T : IMessage
     {

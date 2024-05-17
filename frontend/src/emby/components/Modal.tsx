@@ -1,14 +1,27 @@
 import * as React from 'react';
-import { ModalProps } from '~/common/components/Modal/Modal';
+import { ToastContainer } from 'react-toastify';
 import { Button } from '~/emby/components/Button';
+import './Modal.css';
+
+export type ModalProps = {
+    title?: string;
+    confirmLabel: string;
+    confirmDisable?: boolean;
+    onClose(): void;
+    onConfirm(): void;
+    small?: boolean;
+};
 
 export const Modal: React.FC<ModalProps> = props => {
+    if (props.small === undefined) props.small = false;
     return (
         <>
+
             <div className="dialogBackdrop dialogBackdropOpened" />
             <div className="dialogContainer">
+                <ToastContainer containerId="modalToast" />
                 <div
-                    className="focuscontainer dialog dialog-fixedSize dialog-medium-tall formDialog opened"
+                    className={"focuscontainer dialog " + (props.small ? "dialog-small" : "dialog-fixedSize") + " dialog-medium-tall formDialog opened"}
                     data-lockscroll="true"
                     data-history="true"
                     data-autofocus="true"
@@ -28,6 +41,7 @@ export const Modal: React.FC<ModalProps> = props => {
                                 onClick={_ => props.onConfirm()}
                                 isBlock={true}
                                 class="formDialogFooterItem"
+                                disabled={props.confirmDisable}
                             >
                                 {props.confirmLabel}
                             </Button>

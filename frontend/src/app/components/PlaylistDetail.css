@@ -1,0 +1,29 @@
+.info-row {
+    display: block;
+    padding: 5px 10px 5px 10px;
+    width: 100%;
+}
+
+.info-row-label {
+    font-weight: bolder;
+}
+
+.info-row-label:last-child {
+    float: right;
+}
+
+.info-row-text {
+    display: block;
+    box-shadow: 0px 1px silver;
+}
+
+.tag-list {
+    display: block;
+}
+
+.tag-list div {
+    color: var(--theme-text-color);
+    background-color: var(--button-background);
+    margin-bottom: 10px;
+    border-radius: 50px;
+}

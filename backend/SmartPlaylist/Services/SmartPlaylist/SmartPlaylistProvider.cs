@@ -9,6 +9,8 @@ namespace SmartPlaylist.Services.SmartPlaylist
     {
         Task<Domain.SmartPlaylist[]> GetAllUpdateableSmartPlaylistsAsync();
         Task<Domain.SmartPlaylist> GetSmartPlaylistAsync(Guid smartPlaylistId);
+
+        Task<Domain.SmartPlaylist[]> GetAllSortableSmartPlaylistsAsync();
     }
 
     public class SmartPlaylistProvider : ISmartPlaylistProvider
@@ -20,10 +22,16 @@ namespace SmartPlaylist.Services.SmartPlaylist
             _smartPlaylistStore = smartPlaylistStore;
         }
 
+        public async Task<Domain.SmartPlaylist[]> GetAllSortableSmartPlaylistsAsync()
+        {
+            return SmartPlaylistAdapter.Adapt(await _smartPlaylistStore.GetAllSmartPlaylistsAsync().ConfigureAwait(false))
+                                            .Where(x => x.SmartType == Domain.SmartType.Playlist && x.Enabled && x.SortJob.AvailableToSort()).ToArray();
+        }
+
         public async Task<Domain.SmartPlaylist[]> GetAllUpdateableSmartPlaylistsAsync()
         {
             var smartPlaylistDtos = await _smartPlaylistStore.GetAllSmartPlaylistsAsync().ConfigureAwait(false);
-            return SmartPlaylistAdapter.Adapt(smartPlaylistDtos).Where(x => x.CanUpdatePlaylist).ToArray();
+            return SmartPlaylistAdapter.Adapt(smartPlaylistDtos).Where(x => x.Enabled && x.CanUpdatePlaylist).ToArray();
         }
 
 

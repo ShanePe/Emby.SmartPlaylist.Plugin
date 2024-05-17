@@ -13,7 +13,7 @@ namespace SmartPlaylist.Infrastructure.Queue
         {
             _onConsumeItem = onConsumeItem;
             var thread = new Thread(e => OnHandlerStart())
-                {IsBackground = true};
+            { IsBackground = true };
             thread.Start();
         }
 

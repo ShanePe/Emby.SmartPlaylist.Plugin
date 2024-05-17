@@ -1,7 +1,7 @@
 ﻿using System;
 using MediaBrowser.Model.Logging;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators
+namespace SmartPlaylist.Infrastructure.MessageBus.Decorators
 {
     public class SuppressExceptionDecorator<T> : IMessageHandler<T> where T : IMessage
     {

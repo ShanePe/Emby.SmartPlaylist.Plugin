@@ -26,5 +26,10 @@ namespace SmartPlaylist.Domain.Operator.Operators.ListOperators.ComparableListVa
         {
             return itemValue.NumValue > value.NumValue;
         }
+
+        public override bool Compare(ArrayValue<ListValue> itemValues, ListValue value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

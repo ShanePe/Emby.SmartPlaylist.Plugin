@@ -4,14 +4,20 @@
         "noImplicitAny": false,
         "module": "commonjs",
         "target": "esnext",
-        "lib": ["es2015", "es2017", "dom"],
+        "lib": [
+            "es2015",
+            "es2017",
+            "dom"
+        ],
         "removeComments": true,
         "allowSyntheticDefaultImports": true,
         "jsx": "react",
         "allowJs": true,
         "baseUrl": ".",
         "paths": {
-            "~/*": ["./src/*"]
+            "~/*": [
+                "./src/*"
+            ]
         }
     }
 }

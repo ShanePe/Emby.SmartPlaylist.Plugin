@@ -18,6 +18,6 @@ export const createTreeViewData = (nodes: TreeNodeData[]): TreeViewData => {
 
     return {
         byId: normalizeArray(nodes, 'id'),
-        rootIds: rootNodes.map(x => x.id),
+        rootIds: rootNodes.map(x => x.id)
     };
 };

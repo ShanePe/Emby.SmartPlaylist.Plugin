@@ -14,6 +14,8 @@
         public ListValue From { get; }
         public ListValue To { get; }
 
+        internal override string Friendly => $"Range: {From.Friendly} to {To.Friendly}";
+
         public static ListValueRange Create(ListValue from, ListValue to)
         {
             return new ListValueRange(from, to);
@@ -29,7 +31,7 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((ListValueRange) obj);
+            return Equals((ListValueRange)obj);
         }
 
         public override int GetHashCode()

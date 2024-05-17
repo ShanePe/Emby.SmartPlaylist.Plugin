@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using SmartPlaylist.Contracts;
@@ -9,6 +10,7 @@ using SmartPlaylist.Domain.Values;
 namespace SmartPlaylist.Services.SmartPlaylist
 {
     public class CleanupOldCriteriaDecorator : ISmartPlaylistStore
+
     {
         private readonly ISmartPlaylistStore _decorated;
 
@@ -56,6 +58,9 @@ namespace SmartPlaylist.Services.SmartPlaylist
 
         private void CleanupSmartPlaylist(SmartPlaylistDto dto)
         {
+            if (dto == null)
+                return;
+
             var limitChanged = CleanupOldLimit(dto);
             var criteriaChanged = CleanupOldCriteria(dto);
 
@@ -76,9 +81,9 @@ namespace SmartPlaylist.Services.SmartPlaylist
 
                     changed = true;
                 }
-                else if (IsOldListValue(criteria.Value, criteriaDefinition.Values))
+                else if (IsOldListOrMapValue(criteria.Value, criteriaDefinition.Values))
                 {
-                    criteria.Value = criteriaDefinition.Values.First();
+                    criteria.Value = criteriaDefinition.Values.FirstOrDefault();
                     changed = true;
                 }
             }
@@ -89,7 +94,7 @@ namespace SmartPlaylist.Services.SmartPlaylist
         private static void ChangeCriteriaDefinition(RuleCriteriaValueDto criteria)
         {
             var criteriaDefinition = GetFirstBestMatchedCriteriaDef(criteria);
-            var criteriaDefOperator = criteriaDefinition.Type.Operators.First();
+            var criteriaDefOperator = criteriaDefinition.Type.Operators.FirstOrDefault();
             criteria.Name = criteriaDefinition.Name;
             if (criteria.Operator.Type != criteriaDefOperator.Type)
             {
@@ -101,24 +106,63 @@ namespace SmartPlaylist.Services.SmartPlaylist
         private static CriteriaDefinition GetFirstBestMatchedCriteriaDef(RuleCriteriaValueDto criteria)
         {
             return DefinedCriteriaDefinitions.All.FirstOrDefault(x => x.Type.Name == criteria.Operator.Type) ??
-                   DefinedCriteriaDefinitions.All.First();
+                   DefinedCriteriaDefinitions.All.FirstOrDefault();
         }
 
         private static bool CleanupOldLimit(SmartPlaylistDto dto)
         {
+            if (dto == null || dto.Limit == null)
+                return false;
+
             var changed = false;
-            if (dto.Limit.HasLimit && !DefinedLimitOrders.AllNames.Contains(dto.Limit.OrderBy))
+            if (dto.Limit.HasLimit && !DefinedOrders.AllNames.Contains(dto.Limit.OrderBy))
             {
-                dto.Limit.OrderBy = DefinedLimitOrders.AllNames.First();
+                dto.Limit.OrderBy = DefinedOrders.AllNames.FirstOrDefault();
                 changed = true;
             }
 
             return changed;
         }
 
-        private static bool IsOldListValue(object currentValue, Value[] availableValues)
+        private static bool IsOldListOrMapValue(object currentValue, Value[] availableValues)
         {
-            return currentValue is ListValue listValue && availableValues.Any() && !availableValues.Contains(listValue);
+            return currentValue is ListValue listValue && availableValues.Any() && !availableValues.Contains(listValue)
+            || currentValue is ListMapValue listMapValue && availableValues.Any() && !availableValues.Contains(listMapValue);
+        }
+
+        public bool Exists(Guid userId, string smartPlaylistId)
+        {
+            return _decorated.Exists(userId, smartPlaylistId);
+        }
+
+        public async Task WriteToLogAsync(Domain.SmartPlaylist smartPlaylist)
+        {
+            await _decorated.WriteToLogAsync(smartPlaylist);
+        }
+
+        public Stream GetLogFileStream(Guid userId, string smartPlaylistId)
+        {
+            return _decorated.GetLogFileStream(userId, smartPlaylistId);
+        }
+
+        public string GetLogFilePath(Guid userId, string smartPlaylistId)
+        {
+            return _decorated.GetLogFilePath(userId, smartPlaylistId);
+        }
+
+        public async Task<string> ExportAsync(string[] smartPlaylistIds)
+        {
+            return await _decorated.ExportAsync(smartPlaylistIds).ConfigureAwait(false);
+        }
+
+        public void Delete(string path)
+        {
+            _decorated.Delete(path);
+        }
+
+        public async Task<string> ImportAsync(byte[] fileData, Guid userId)
+        {
+            return await _decorated.ImportAsync(fileData, userId).ConfigureAwait(false);
         }
     }
 }

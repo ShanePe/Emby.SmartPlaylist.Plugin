@@ -9,28 +9,31 @@ type NumberRangeValueInputProps = {
 };
 
 export const NumberRangeValueInput: React.FC<NumberRangeValueInputProps> = props => {
+    function handleChangeFrom(e) {
+        props.onChange({
+            ...props.value,
+            from: e.target.valueAsNumber
+        })
+    }
+    function handleChangeTo(e) {
+        props.onChange({
+            ...props.value,
+            to: e.target.valueAsNumber
+        })
+    }
+
     return (
         <>
             <Input
                 value={props.value.from}
                 type="number"
-                onBlur={e =>
-                    props.onChange({
-                        ...props.value,
-                        from: e.target.valueAsNumber,
-                    })
-                }
+                onInput={handleChangeFrom}
             />
             <Label>to:</Label>
             <Input
                 value={props.value.to}
                 type="number"
-                onBlur={e =>
-                    props.onChange({
-                        ...props.value,
-                        to: e.target.valueAsNumber,
-                    })
-                }
+                onInput={handleChangeTo}
             />
         </>
     );

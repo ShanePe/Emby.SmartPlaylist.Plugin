@@ -1,4 +1,5 @@
 ﻿using System;
+using SmartPlaylist.Domain;
 
 namespace SmartPlaylist.Contracts
 {

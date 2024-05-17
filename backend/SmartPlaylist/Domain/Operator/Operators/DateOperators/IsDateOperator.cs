@@ -11,5 +11,7 @@ namespace SmartPlaylist.Domain.Operator.Operators.DateOperators
         {
             return itemValue?.Equals(value) ?? false;
         }
+
+        public override bool Valueless => false;
     }
 }

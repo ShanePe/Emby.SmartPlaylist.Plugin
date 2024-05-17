@@ -18,6 +18,8 @@ namespace SmartPlaylist.Domain.Values
 
         public string Value { get; }
 
+        internal override string Friendly => Value;
+
         public override string ToString()
         {
             return Value;
@@ -33,7 +35,7 @@ namespace SmartPlaylist.Domain.Values
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((ListValue) obj);
+            return Equals((ListValue)obj);
         }
 
         public override int GetHashCode()
@@ -52,7 +54,7 @@ namespace SmartPlaylist.Domain.Values
         }
 
 
-        public static ListValue Create(string value, float numValue =0)
+        public static ListValue Create(string value, float numValue = 0)
         {
             return new ListValue(value, numValue);
         }

@@ -16,5 +16,10 @@ namespace SmartPlaylist.Domain.Operator.Operators.NumberOperators
         {
             return itemValue.IsInRange(value);
         }
+
+        public override bool Compare(ArrayValue<NumberValue> itemValues, NumberRangeValue value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

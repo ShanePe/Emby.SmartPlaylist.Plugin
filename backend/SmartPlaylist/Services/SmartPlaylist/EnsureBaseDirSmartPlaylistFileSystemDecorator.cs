@@ -53,5 +53,15 @@ namespace SmartPlaylist.Services.SmartPlaylist
         {
             if (!Directory.Exists(BasePath)) Directory.CreateDirectory(BasePath);
         }
+
+        public bool PlaylistFileExists(Guid userId, string playlistId)
+        {
+            return _decorated.PlaylistFileExists(userId, playlistId);
+        }
+
+        public string GetSmartPlaylistLog(Guid userId, string playlistId)
+        {
+            return _decorated.GetSmartPlaylistLog(userId, playlistId);
+        }
     }
 }

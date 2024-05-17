@@ -16,5 +16,10 @@ namespace SmartPlaylist.Domain.Operator.Operators.DateOperators
         {
             return itemValue.IsBetween(value);
         }
+
+        public override bool Compare(ArrayValue<DateValue> itemValues, DateRangeValue value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

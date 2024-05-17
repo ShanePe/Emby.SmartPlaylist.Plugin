@@ -26,5 +26,10 @@ namespace SmartPlaylist.Domain.Operator.Operators.ListOperators.ComparableListVa
         {
             return itemValue.IsBetween(value);
         }
+
+        public override bool Compare(ArrayValue<ListValue> itemValues, ListValueRange value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

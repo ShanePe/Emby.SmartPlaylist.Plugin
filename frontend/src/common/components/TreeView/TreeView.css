@@ -1,0 +1,8 @@
+.tree-button-container {
+    position: relative;
+}
+
+.tree-button-inner {
+    position: absolute;
+    right: 4px;
+}

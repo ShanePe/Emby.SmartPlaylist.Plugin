@@ -1,0 +1,19 @@
+.confirm-text {
+    display: inline;
+    padding: 10px;
+    margin: 10px;
+}
+
+.confirm-footer {
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
+}
+
+.deletePlaylist {
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    padding: 10px;
+    font-size: smaller;
+}

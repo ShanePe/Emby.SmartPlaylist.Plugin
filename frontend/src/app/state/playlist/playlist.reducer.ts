@@ -7,7 +7,7 @@ import {
     changeExpand,
     removeNode,
 } from '~/common/components/TreeView/actions/treeViewData.actions';
-import { Playlist } from '~/app/types/playlist';
+import { Playlist, PlaylistInfo } from '~/app/types/playlist';
 
 export type RulesCriteriaDefinitionsState = {
     byId: {
@@ -16,27 +16,27 @@ export type RulesCriteriaDefinitionsState = {
     names: string[];
 };
 
-export type PlaylistState = Playlist;
+export type PlaylistState = Playlist | PlaylistInfo;
 
 export type PlaylistAction =
     | { type: 'ruleTree:add'; entity: Rule; treeNode: TreeNodeData }
     | {
-          type: 'ruleTree:addGroup';
-          entity: RuleGroup;
-          childEntity: Rule;
-          treeNode: TreeNodeData;
-      }
+        type: 'ruleTree:addGroup';
+        entity: RuleGroup;
+        childEntity: Rule;
+        treeNode: TreeNodeData;
+    }
     | { type: 'ruleTree:remove'; treeNode: TreeNodeData }
     | {
-          type: 'ruleTree:changeExpand';
-          treeNode: TreeNodeData;
-          isExpanded: boolean;
-      }
+        type: 'ruleTree:changeExpand';
+        treeNode: TreeNodeData;
+        isExpanded: boolean;
+    }
     | { type: 'ruleEntity:update'; entity: Partial<RuleOrRuleGroup>; ruleId: string }
     | {
-          type: 'playlist:updateData';
-          data: Partial<Playlist>;
-      };
+        type: 'playlist:updateData';
+        data: Partial<Playlist>;
+    };
 
 export const playlistReducer: React.Reducer<PlaylistState, PlaylistAction> = (state, action) => {
     switch (action.type) {

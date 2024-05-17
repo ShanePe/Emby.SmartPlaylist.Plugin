@@ -24,5 +24,7 @@ namespace SmartPlaylist.Domain.Operator.Operators.StringOperators
         {
             return value is StringValue && (itemValue is StringValue || itemValue is ArrayValue<StringValue>);
         }
+
+        public override bool Valueless => false;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediaBrowser.Controller.Entities;
+using SmartPlaylist.Getters;
 using SmartPlaylist.Services;
 
 namespace SmartPlaylist.Comparers
@@ -14,7 +15,7 @@ namespace SmartPlaylist.Comparers
 
         private DateTimeOffset GetReleaseDate(BaseItem baseItem)
         {
-            return baseItem.PremiereDate.GetValueOrDefault(ReleaseDateGetter.Get(baseItem));
+            return baseItem.PremiereDate.GetValueOrDefault(ReleaseDateGetter.Get(baseItem) ?? DateTimeOffset.MinValue);
         }
     }
 }

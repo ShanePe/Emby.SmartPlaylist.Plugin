@@ -1,4 +1,6 @@
-﻿namespace SmartPlaylist.Domain.Rule
+﻿using SmartPlaylist.Contracts;
+
+namespace SmartPlaylist.Domain.Rule
 {
     public abstract class RuleBase
     {
@@ -10,5 +12,6 @@
         public string Id { get; }
 
         public abstract bool IsMatch(UserItem item);
+        public abstract void Explain(HierarchyStringDto hs, int level, UserDto[] users);
     }
 }

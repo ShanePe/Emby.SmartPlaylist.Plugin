@@ -2,13 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
 
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('css-minimizer-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const { TypedCssModulesPlugin } = require('typed-css-modules-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssExtractPluginConfig = new MiniCssExtractPlugin({
-    filename: 'smartplaylist.css',
+    filename: 'smartplaylist.2.5.1.4850.css',
 });
 const outDir = path.join(__dirname, '../backend/SmartPlaylist/Configuration');
 
@@ -19,7 +19,7 @@ module.exports = {
         new TypedCssModulesPlugin({
             globPattern: 'src/**/*.css',
         }),
-        new webpack.NormalModuleReplacementPlugin(/./, function(resource) {
+        new webpack.NormalModuleReplacementPlugin(/./, function (resource) {
             if (!resource.context.includes('emby')) {
                 const component = resource.request.match(/[^\/]+$/)[0];
                 const isFileExists = fs.existsSync(
@@ -64,7 +64,7 @@ module.exports = {
 
     output: {
         path: outDir,
-        filename: 'smartplaylist.js',
+        filename: 'smartplaylist.2.5.1.4850.js',
     },
 
     module: {
@@ -87,7 +87,7 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'ts-loader',
                     },
                 ],
             },

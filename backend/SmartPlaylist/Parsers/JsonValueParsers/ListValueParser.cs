@@ -9,10 +9,32 @@ namespace SmartPlaylist.Parsers.JsonValueParsers
         public static Regex ParseRegEx =
             new Regex("{numValue:(.*),kind:listValue,value:(.*)}", RegexOptions.IgnoreCase);
 
-        public static Regex ParseRegEx2 =
+        public static Regex ParseRegExWithoutNumValue =
             new Regex("{kind:listValue,value:(.*)}", RegexOptions.IgnoreCase);
 
         public override bool TryParse(string value, out Value val)
+        {
+            if (TryGetWithNumValue(value, out val)) return true;
+
+            if (TryGetWithoutNumValue(value, out val)) return true;
+
+            return false;
+        }
+
+        private static bool TryGetWithoutNumValue(string value, out Value val)
+        {
+            val = null;
+            var match = ParseRegExWithoutNumValue.Match(value);
+            if (match.Success && match.Groups[1].Value is string strValue)
+            {
+                val = new ListValue(strValue);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryGetWithNumValue(string value, out Value val)
         {
             val = null;
             var match = ParseRegEx.Match(value);
@@ -20,13 +42,6 @@ namespace SmartPlaylist.Parsers.JsonValueParsers
                     NumberStyles.Any, CultureInfo.InvariantCulture, out var numValue))
             {
                 val = new ListValue(strValue, numValue);
-                return true;
-            }
-
-            var match2 = ParseRegEx2.Match(value);
-            if (match2.Success && match2.Groups[1].Value is string strValue2)
-            {
-                val = new ListValue(strValue2);
                 return true;
             }
 

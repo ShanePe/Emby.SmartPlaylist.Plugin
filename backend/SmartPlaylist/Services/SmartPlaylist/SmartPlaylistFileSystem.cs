@@ -25,7 +25,7 @@ namespace SmartPlaylist.Services.SmartPlaylist
 
         public string GetSmartPlaylistFilePath(Guid smartPlaylistId)
         {
-            return Directory.GetFiles(BasePath, $"{smartPlaylistId}.json", SearchOption.AllDirectories).First();
+            return Directory.GetFiles(BasePath, $"{smartPlaylistId}.json", SearchOption.AllDirectories).FirstOrDefault();
         }
 
         public string[] GetSmartPlaylistFilePaths(Guid userId)
@@ -43,6 +43,17 @@ namespace SmartPlaylist.Services.SmartPlaylist
         {
             var playlistsPath = GetOrCreateSmartPlaylistDir(userId);
             return Path.Combine(playlistsPath, $"{playlistId}.json");
+        }
+
+        public string GetSmartPlaylistLog(Guid userId, string playlistId)
+        {
+            var playlistsPath = GetOrCreateSmartPlaylistDir(userId);
+            return Path.Combine(playlistsPath, $"{playlistId}.log");
+        }
+
+        public bool PlaylistFileExists(Guid userId, string playlistId)
+        {
+            return File.Exists(GetSmartPlaylistPath(userId, playlistId));
         }
     }
 }

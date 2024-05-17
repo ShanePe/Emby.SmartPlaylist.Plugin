@@ -29,9 +29,9 @@ namespace SmartPlaylist.ScheduleTasks
 
         public string Key => typeof(RefreshAllSmartPlaylistsTask).Name;
 
-        public string Name => "Refresh all SmartPlaylists";
+        public string Name => "Refresh all Smart Playlists and Collections";
 
-        public string Description => "Refresh all SmartPlaylists";
+        public string Description => "Refresh all Enabled Smart Playlists and Collections";
 
         public string Category => "Library";
     }

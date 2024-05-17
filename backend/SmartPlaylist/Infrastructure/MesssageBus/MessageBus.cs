@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SmartPlaylist.Infrastructure.Queue;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus
+namespace SmartPlaylist.Infrastructure.MessageBus
 {
     public class MessageBus : IDisposable
     {
@@ -65,7 +65,7 @@ namespace SmartPlaylist.Infrastructure.MesssageBus
 
             public void Handle(IMessage message)
             {
-                _handle((T) message);
+                _handle((T)message);
             }
         }
 

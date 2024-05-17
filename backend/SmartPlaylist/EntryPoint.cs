@@ -6,7 +6,7 @@ using MediaBrowser.Controller.Plugins;
 using MediaBrowser.Model.Entities;
 using SmartPlaylist.Comparers;
 using SmartPlaylist.Handlers.Commands;
-using SmartPlaylist.Infrastructure.MesssageBus;
+using SmartPlaylist.Infrastructure.MessageBus;
 using SmartPlaylist.Infrastructure.Queue;
 
 namespace SmartPlaylist
@@ -52,16 +52,18 @@ namespace SmartPlaylist
 
         private void libraryManager_ItemAdded(object sender, ItemChangeEventArgs e)
         {
-            if (Const.ListenForChangeItemTypes.Contains(e.Item.GetType()))
+            if (Const.ListenForChangeItemTypes.Contains(e.Item.GetType()) &&
+                !_updatedItemsQueue.Items.Any(x => x.InternalId == e.Item.InternalId))
                 _updatedItemsQueue.Enqueue(e.Item);
         }
 
 
         private void libraryManager_ItemUpdated(object sender, ItemChangeEventArgs e)
         {
-            if (Const.ListenForChangeItemTypes.Contains(e.Item.GetType())) _updatedItemsQueue.Enqueue(e.Item);
+            if (Const.ListenForChangeItemTypes.Contains(e.Item.GetType()) &&
+                !_updatedItemsQueue.Items.Any(x => x.InternalId == e.Item.InternalId))
+                _updatedItemsQueue.Enqueue(e.Item);
         }
-
 
         private void _userDataManager_UserDataSaved(object sender, UserDataSaveEventArgs e)
         {
@@ -73,7 +75,7 @@ namespace SmartPlaylist
                     e.Item.PlayCount = e.UserData.PlayCount;
                     e.Item.LastPlayedDate = e.UserData.LastPlayedDate;
                     e.Item.Played = e.UserData.Played;
-                    e.Item.Rating = e.UserData.Rating;
+                    e.Item.CustomRating = e.UserData.Rating?.ToString() ?? "None";
                     _updatedItemsQueue.Enqueue(e.Item);
                 }
         }

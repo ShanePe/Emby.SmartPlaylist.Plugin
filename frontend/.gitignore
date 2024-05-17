@@ -4,3 +4,4 @@ dist
 .awcache
 yarn.lock
 **/**/*.css.d.ts
+package-lock.json

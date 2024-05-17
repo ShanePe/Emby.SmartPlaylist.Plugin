@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediaBrowser.Model.Logging;
 
-namespace SmartPlaylist.Infrastructure.MesssageBus.Decorators
+namespace SmartPlaylist.Infrastructure.MessageBus.Decorators
 {
     public class SuppressAsyncExceptionDecorator<T> : IMessageHandlerAsync<T> where T : IMessage
     {

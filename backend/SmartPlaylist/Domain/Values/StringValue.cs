@@ -3,7 +3,7 @@ using SmartPlaylist.Extensions;
 
 namespace SmartPlaylist.Domain.Values
 {
-    public class StringValue : Value
+    public class StringValue : EmptyableValue
     {
         public static readonly StringValue Default = new StringValue(string.Empty);
 
@@ -15,6 +15,10 @@ namespace SmartPlaylist.Domain.Values
         public override string Kind => "string";
 
         public string Value { get; }
+
+        internal override bool IsEmpty => IsNone || string.IsNullOrEmpty(Value);
+
+        internal override string Friendly => Value;
 
         public static StringValue Create(string value)
         {
@@ -36,7 +40,7 @@ namespace SmartPlaylist.Domain.Values
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((StringValue) obj);
+            return Equals((StringValue)obj);
         }
 
         public override int GetHashCode()

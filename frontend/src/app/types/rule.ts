@@ -14,45 +14,54 @@ export type RuleGroup = {
 
 export type RuleOrRuleGroup = Rule | RuleGroup;
 
-export type CrtieriaValue =
+export type CriteriaValue =
     | StringValue
     | DateValue
     | LastPeriodValue
     | DateRangeValue
     | ListValue
+    | ListMapValue
     | NumberValue
     | NumberRangeValue
-    | ListValueRange;
+    | ListValueRange
+    | EmptyValue
+    | RegexValue;
 
 export type RuleCriteriaValue = {
     name: string;
     operator: RuleCriteriaOperator;
-    value: CrtieriaValue;
+    value: CriteriaValue;
+    userId: string;
 };
 
 export type RuleCriteriaDefinition = {
     name: string;
     type: RuleCriteriaDefinitionType;
-    values: CrtieriaValue[];
+    values: CriteriaValue[];
+    isUserSpecific: boolean;
+    userId?: string;
 };
 
 export type RuleCriteriaOperator = {
     name: string;
     type: OperatorType;
-    defaultValue: CrtieriaValue;
+    defaultValue: CriteriaValue;
 };
 
-export type CriteriaType = 'string' | 'date' | 'number' | 'listValue' | 'bool';
+export type CriteriaType = 'string' | 'date' | 'number' | 'listValue' | 'bool' | 'empty' | 'regex';
 export type OperatorType =
     | 'string'
     | 'date'
     | 'lastPeriod'
     | 'dateRange'
     | 'listValue'
+    | 'listMapValue'
     | 'number'
     | 'numberRange'
     | 'listValueRange'
-    | 'bool';
+    | 'bool'
+    | 'empty'
+    | 'regex';
 
 export type RuleCriteriaDefinitionType = {
     name: CriteriaType;
@@ -63,6 +72,12 @@ export type StringValue = {
     kind: 'string';
     value: string;
 };
+
+export type RegexValue = {
+    kind: 'regex',
+    value: string,
+    caseSensitive: boolean
+}
 
 export type NumberValue = {
     kind: 'number';
@@ -98,10 +113,22 @@ export type ListValue = {
     numValue: number;
 };
 
+export type ListMapValue = {
+    kind: 'listMapValue';
+    value: string;
+    map: string;
+    numValue: number;
+};
+
 export type BoolValue = {
     kind: 'bool';
     value: boolean;
 };
+
+export type EmptyValue = {
+    kind: 'empty';
+    value: any
+}
 
 export type ListValueRange = {
     kind: 'listValueRange';
